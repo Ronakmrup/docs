@@ -27,7 +27,7 @@
                         "pages": [
                             "Agent-platform/models/noise-cancellation",
                             "Agent-platform/models/voice-activity-detection",
-                          "Agent-platform/models/asr-aware-noise-cancellation"
+                            "Agent-platform/models/asr-aware-noise-cancellation"
                         ]
                     },
                     {
@@ -37,7 +37,7 @@
                             "Agent-platform/models/",
                             "Agent-platform/models/",
                             "Agent-platform/models/",
-                          "Agent-platform/models/"
+                            "Agent-platform/models/"
                         ]
                     },
                     {
@@ -69,8 +69,8 @@
                     "anchor": "Support",
                     "href": "https://support.sanas.ai",
                     "icon": "book-open-cover"
-                }
-              {
+                },
+                {
                     "anchor": "Discord",
                     "href": "https://discord.com",
                     "icon": "fa-brands fa-discord"
