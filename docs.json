@@ -51,13 +51,15 @@
             {
                 "tab": "API reference",
                 "groups": []
-            }
-          {
+            },
+            {
                 "tab": "Sanas Agent Platform (coming soon)",
                 "groups": "Getting started",
-                "pages": ["Quickstart",
-                "Authentication",
-                "Reference"]
+                "pages": [
+                    "Quickstart",
+                    "Authentication",
+                    "Reference"
+                ]
             }
         ],
         "global": {
