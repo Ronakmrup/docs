@@ -1,8 +1,6 @@
 {
     "$schema": "https://mintlify.com/docs.json",
     "theme": "mint",
-    "name": "Sanas Developer Hub",
-    "landingPage": "Agent-platform/get-started/Overview",
     "colors": {
         "primary": "#16A34A",
         "light": "#07C983",
