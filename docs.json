@@ -16,41 +16,41 @@
                     {
                         "group": "Getting started",
                         "pages": [
-                            "Get-Started/Overview",
-                            "index",
-                            "quickstart",
-                            "development",
-                            "Demofile"
+                            "Agent-platform/get-started/Overview",
+                            "Agent-platform/get-started/Quickstart",
+                            "Agent-platform/get-started/Authentication",
+                            "Agent-platform/get-started/Reference"
                         ]
                     },
                     {
-                        "group": "Customization",
+                        "group": "Models",
                         "pages": [
-                            "essentials/settings",
-                            "essentials/navigation"
+                            "Agent-platform/models/noise-cancellation",
+                            "Agent-platform/models/voice-activity-detection",
+                          "Agent-platform/models/asr-aware-noise-cancellation"
                         ]
                     },
                     {
-                        "group": "Writing content",
+                        "group": "Capabilities",
                         "pages": [
-                            "essentials/markdown",
-                            "essentials/code",
-                            "essentials/images",
-                            "essentials/reusable-snippets"
+                            "Agent-platform/models/",
+                            "Agent-platform/models/",
+                            "Agent-platform/models/",
+                            "Agent-platform/models/",
+                          "Agent-platform/models/"
                         ]
                     },
                     {
-                        "group": "AI tools",
+                        "group": "Developer guides",
                         "pages": [
-                            "ai-tools/cursor",
-                            "ai-tools/claude-code",
-                            "ai-tools/windsurf"
+                            "Agent-platform/models/single-stream-processing",
+                            "Agent-platform/models/multi-stream-processing"
                         ]
                     }
                 ]
             },
             {
-                "tab": "API reference",
+                "tab": "API reference (coming soon)",
                 "groups": []
             },
             {
@@ -66,9 +66,14 @@
         "global": {
             "anchors": [
                 {
-                    "anchor": "Documentation",
-                    "href": "https://mintlify.com/docs",
+                    "anchor": "Support",
+                    "href": "https://support.sanas.ai",
                     "icon": "book-open-cover"
+                }
+              {
+                    "anchor": "Discord",
+                    "href": "https://discord.com",
+                    "icon": "fa-brands fa-discord"
                 }
             ]
         }
@@ -81,7 +86,7 @@
         "links": [
             {
                 "label": "Support",
-                "href": "mailto:hi@mintlify.com"
+                "href": "mailto:support@sanas.ai"
             }
         ],
         "primary": {
@@ -104,9 +109,7 @@
     },
     "footer": {
         "socials": {
-            "x": "https://x.com/mintlify",
-            "github": "https://github.com/mintlify",
-            "linkedin": "https://linkedin.com/company/mintlify"
+            "linkedin": "https://www.linkedin.com/company/sanastech/"
         }
     }
 }
