@@ -1,7 +1,7 @@
 {
     "$schema": "https://mintlify.com/docs.json",
     "theme": "mint",
-    "name": "Mint Starter Kit",
+    "name": "Sanas Developer Hub",
     "colors": {
         "primary": "#16A34A",
         "light": "#07C983",
@@ -73,8 +73,8 @@
         }
     },
     "logo": {
-        "light": "/logo/light.svg",
-        "dark": "/logo/dark.svg"
+        "light": "/logo/Sanas logo black.svg",
+        "dark": "/logo/Sanas logo white.svg"
     },
     "navbar": {
         "links": [
