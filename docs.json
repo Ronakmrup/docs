@@ -1,117 +1,144 @@
 {
-    "$schema": "https://mintlify.com/docs.json",
-    "theme": "mint",
-    "name": "Sanas Developer Hub",
-    "landingPage": "Index",
-    "colors": {
-        "primary": "#16A34A",
-        "light": "#07C983",
-        "dark": "#15803D"
-    },
-    "favicon": "images/sanas-favicon.png",
-    "navigation": {
-        "tabs": [
-            {
-                "tab": "Sanas Agent Platform",
-                "groups": [
-                    {
-                        "group": "Getting started",
-                        "pages": [
-                            "Agent-platform/get-started/Overview",
-                            "Agent-platform/get-started/Quickstart",
-                            "Agent-platform/get-started/Authentication",
-                            "Agent-platform/get-started/Reference"
-                        ]
-                    },
-                    {
-                        "group": "Models",
-                        "pages": [
-                            "Agent-platform/models/noise-cancellation",
-                            "Agent-platform/models/voice-activity-detection",
-                            "Agent-platform/models/asr-aware-noise-cancellation"
-                        ]
-                    },
-                    {
-                        "group": "Capabilities",
-                        "pages": [
-                            "Agent-platform/models/",
-                            "Agent-platform/models/",
-                            "Agent-platform/models/",
-                            "Agent-platform/models/",
-                            "Agent-platform/models/"
-                        ]
-                    },
-                    {
-                        "group": "Developer guides",
-                        "pages": [
-                            "Agent-platform/models/single-stream-processing",
-                            "Agent-platform/models/multi-stream-processing"
-                        ]
-                    }
-                ]
-            },
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Sanas Developer Hub",
+  "landingPage": "Index",
+  "colors": {
+    "primary": "#16A34A",
+    "light": "#07C983",
+    "dark": "#15803D"
+  },
+  "favicon": "images/sanas-favicon.png",
+
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Introduction",
+        "groups": [
           {
-                "tab": "Sanas Speech Platform (coming soon)",
-                "groups": "Getting started",
-                "pages": [
-                    "Quickstart",
-                    "Authentication",
-                    "Reference"
-                ]
-            },
-            {
-                "tab": "API reference (coming soon)",
-                "groups": []
-            }
-            
-        ],
-        "global": {
-            "anchors": [
-                {
-                    "anchor": "Support",
-                    "href": "https://support.sanas.ai",
-                    "icon": "book-open-cover"
-                },
-                {
-                    "anchor": "Discord",
-                    "href": "https://discord.com",
-                    "icon": "book-open-cover"
-                }
+            "group": "Overview",
+            "pages": [
+              "overview/Introduction"
             ]
-        }
-    },
-    "logo": {
-        "light": "/logo/Sanas logo black.svg",
-        "dark": "/logo/Sanas logo white.svg"
-    },
-    "navbar": {
-        "links": [
-            {
-                "label": "Support",
-                "href": "mailto:support@sanas.ai"
-            }
-        ],
-        "primary": {
-            "type": "button",
-            "label": "Dashboard",
-            "href": "https://dashboard.mintlify.com"
-        }
-    },
-    "contextual": {
-        "options": [
-            "copy",
-            "view",
-            "chatgpt",
-            "claude",
-            "perplexity",
-            "mcp",
-            "cursor",
-            "vscode"
+          },
+          {
+            "group": "Capabilities",
+            "pages": [
+              "overview/ASR-Aware Noise Cancellation",
+              "overview/NC-Enhanced Voice Activity Detection",
+              "overview/Noise Cancellation",
+              "overview/Voice Activity Detection",
+              "overview/Accent Translation",
+              "overview/Active Speech Recognition",
+              "overview/Speech-To-Text",
+              "overview/Text-To-Speech"
+            ]
+          }
         ]
-    },
-    "footer": {
-        "socials": {
-            "linkedin": "https://www.linkedin.com/company/sanastech/"
+      },
+
+      {
+        "tab": "Sanas Agent Platform",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "Agent-platform/get-started/Overview",
+              "Agent-platform/get-started/Quickstart",
+              "Agent-platform/get-started/Authentication",
+              "Agent-platform/get-started/Reference"
+            ]
+          },
+          {
+            "group": "Models",
+            "pages": [
+              "Agent-platform/models/noise-cancellation",
+              "Agent-platform/models/voice-activity-detection",
+              "Agent-platform/models/asr-aware-noise-cancellation"
+            ]
+          },
+          
+          {
+            "group": "Developer guides",
+            "pages": [
+              "Agent-platform/models/single-stream-processing",
+              "Agent-platform/models/multi-stream-processing"
+            ]
+          }
+        ]
+      },
+
+      {
+        "tab": "Sanas Speech Platform (coming soon)",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "Quickstart",
+              "Authentication",
+              "Reference"
+            ]
+          }
+        ]
+      },
+
+      {
+        "tab": "API reference (coming soon)",
+        "groups": []
+      }
+    ],
+
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Support",
+          "href": "https://support.sanas.ai",
+          "icon": "book-open-cover"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://www.sanas.ai/blog",
+          "icon": "book-open-cover"
         }
+      ]
     }
+  },
+
+  "logo": {
+    "light": "/logo/Sanas logo black.svg",
+    "dark": "/logo/Sanas logo white.svg"
+  },
+
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@sanas.ai"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.mintlify.com"
+    }
+  },
+
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
+  },
+
+  "footer": {
+    "socials": {
+      "linkedin": "https://www.linkedin.com/company/sanastech/"
+    }
+  }
 }
