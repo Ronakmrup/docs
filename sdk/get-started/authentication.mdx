@@ -61,19 +61,6 @@ Once approved, you'll receive the following via email:
 - Installation script
 - Documentation
 
-**How to use:**
-
-```bash
-# Extract the SDK connector
-tar -zxvf sanas_remote_sdk_<platform-arch>_<version>.tar.gz
-
-# Navigate to directory
-cd sanas_remote_sdk_<platform-arch>_<version>
-
-# Run installation
-./install.sh
-```
-
 ### 2. Endpoint URL
 
 **Example**: wss://api-mumbai.sanas.ai or similar
@@ -82,12 +69,6 @@ cd sanas_remote_sdk_<platform-arch>_<version>
 
 - Network address to connect to the Sanas Cloud
 - Region-specific endpoint for low latency
-
-**How to use:**
-
-```python
-init_params.remoteEndpoint = "your_endpoint_url_here"
-```
 
 <Note>
   **Self-hosted users:** You won't use this endpoint. Instead, you'll connect to your own infrastructure.
@@ -101,12 +82,6 @@ init_params.remoteEndpoint = "your_endpoint_url_here"
 - Used to authenticate SDK requests
 - Non-sensitive (but don't share publicly)
 
-**How to use:**
-
-```python
-init_params.accountId = "your_account_id_here"
-```
-
 ### 4. Account Secret
 
 **What it is:**
@@ -114,12 +89,6 @@ init_params.accountId = "your_account_id_here"
 - Secure password for SDK authentication
 - Sensitive credential (keep confidential)
 - Used to verify your identity
-
-**How to use:**
-
-```python
-init_params.accountSecret = "your_account_secret_here"
-```
 
 <Warning>
   **Security Warning:**
@@ -161,144 +130,7 @@ else:
     print(f"❌ Initialization failed: {result}")
 ```
 
-## Security Best Practices
-
-<CardGroup cols={2}>
-  <Card title="Use Environment Variables" icon="shield-check">
-    **Never hardcode credentials**
-
-    \
-    ✅ Goodsecret = os.getenv("SANAS_SECRET")
-
-    #❌ Bad
-
-    secret = "actual_secret_here"
-
-    ```
-    
-    ```
-  </Card>
-  <Card title="Rotate Credentials" icon="rotate">
-    **If compromised:**
-
-    1. Contact support immediately
-    2. Request new credentials
-    3. Update all applications
-    4. Monitor for suspicious activity
-  </Card>
-  <Card title="Limit Access" icon="lock">
-    **Principle of least privilege**
-
-    - Only share with team members who need it
-    - Use separate credentials per environment
-    - Revoke access when no longer needed
-  </Card>
-  <Card title="Secure Storage" icon="vault">
-    **Protect credentials at rest**
-
-    - Use secrets management tools
-    - Encrypt configuration files
-    - Don't store in plaintext
-    - Don't log credentials
-  </Card>
-</CardGroup>
-
-## Environment-Specific Configuration
-
-### Development Environment
-
-```python
-# .env.development
-SANAS_ENDPOINT=wss://api-mumbai.sanas.ai
-SANAS_ACCOUNT_ID=dev-account-id
-SANAS_ACCOUNT_SECRET=dev-secret
-SANAS_SECURE_MEDIA=false  # Optional for testing
-```
-
-### Production Environment
-
-```python
-# .env.production
-SANAS_ENDPOINT=wss://api-mumbai.sanas.ai
-SANAS_ACCOUNT_ID=prod-account-id
-SANAS_ACCOUNT_SECRET=prod-secret
-SANAS_SECURE_MEDIA=true  # Always true in production
-```
-
-### Loading Environment Variables
-
-```python
-from dotenv import load_dotenv
-import os
-
-# Load environment-specific config
-load_dotenv('.env.production')
-
-init_params.remoteEndpoint = os.getenv("SANAS_ENDPOINT")
-init_params.accountId = os.getenv("SANAS_ACCOUNT_ID")
-init_params.accountSecret = os.getenv("SANAS_ACCOUNT_SECRET")
-init_params.secureMedia = os.getenv("SANAS_SECURE_MEDIA", "true").lower() == "true"
-```
-
-## Troubleshooting Authentication
-
-<AccordionGroup>
-  <Accordion title="Initialization fails with authentication error" icon="triangle-exclamation">
-    **Error:** `InitResult.AUTHENTICATION_FAILED`
-
-    **Common causes:**
-
-    1. Incorrect Account ID or Account Secret
-    2. Typos in credentials
-    3. Copy-paste formatting issues
-
-    **Solutions:**
-
-    ```python
-    # Verify credentials (without logging secrets)
-    print(f"Endpoint: {init_params.remoteEndpoint}")
-    print(f"Account ID: {init_params.accountId}")
-    print(f"Secret length: {len(init_params.accountSecret)}")
-    
-    # Check for hidden characters
-    init_params.accountSecret = init_params.accountSecret.strip()
-    ```
-  </Accordion>
-  <Accordion title="Cannot connect to endpoint" icon="triangle-exclamation">
-    **Error:** `InitResult.CONNECTION_FAILED`
-
-    **Common causes:**
-
-    1. Network connectivity issues
-    2. Firewall blocking outbound connections
-    3. Wrong endpoint URL
-
-    **Solutions:**
-
-    - Verify network connectivity: `ping api-mumbai.sanas.ai`
-    - Check firewall allows HTTPS/WSS outbound
-    - Confirm endpoint URL matches credentials email
-    - Try with `secureMedia = False` for testing
-  </Accordion>
-  <Accordion title="Credentials not received after request" icon="triangle-exclamation">
-    **Wait time:** Typically 1-2 business days
-
-    **If delayed:**
-
-    1. Check spam/junk folder
-    2. Verify email address in request form
-    3. Contact support: [support@sanas.ai](mailto:support@sanas.ai)
-  </Accordion>
-  <Accordion title="Need credentials for multiple environments" icon="triangle-exclamation">
-    **Use case:** Separate dev, staging, production
-
-    **Solution:** Contact support to request additional credential sets for each environment. This allows:
-
-    - Isolated testing environments
-    - Separate usage tracking
-    - Better security isolation
-  </Accordion>
-</AccordionGroup>
+---
 
 ## Self-Hosted Authentication
 
@@ -309,7 +141,7 @@ If you're deploying Sanas SDK on your own infrastructure:
 
   - No Endpoint URL needed (you control the infrastructure)
   - You'll receive different deployment-specific credentials
-  - Setup requires consultation with Sanas support team
+  - Setup requires consultation with the Sanas support team
 </Info>
 
 To get started with self-hosting:
@@ -322,64 +154,19 @@ To get started with self-hosting:
   - Architecture guidance
   - Setup assistance
 
-  Reach out to our team →
+  [Reach out to our team](https://support.sanas.ai) →
 </Card>
 
 ## Next Steps
 
-<Steps>
-  <Step title="Received credentials?">
-    ✅ Great! You're ready to install the SDK.
+Received credentials? ✅ Great! You're ready to install the SDK.
 
-    [Continue to Quickstart Guide →](/sdk/getting-started/quickstart)
-  </Step>
-  <Step title="Waiting for credentials?">
-    ⏳ Check your email (including spam folder)
+<Card title="Quickstart Guide" icon="bolt" href="/SDK/Get-Started/Quickstart-Guide">
+  \
+  Instructions for installing libraries and dependencies and running your first audio stream.
+</Card>
 
-    [Request access if you haven't →](https://share-na2.hsforms.com/1EScdGvwoQgqBiwZyic04dAczvqf)
-  </Step>
-  <Step title="Need help?">
-    💬 Our support team is here to assist
-
-    [Contact support →](/support)
-  </Step>
-</Steps>
-
-## Frequently Asked Questions
-
-<AccordionGroup>
-  <Accordion title="How long does it take to get credentials?" icon="clock">
-    Typically **1-2 business days** after submitting the request form. If you haven't received them within 3 business days, check your spam folder or contact support.
-  </Accordion>
-  <Accordion title="Can I use the same credentials across multiple applications?" icon="question">
-    **Yes**, you can use the same credentials for multiple applications. However, for production, we recommend requesting separate credentials per environment (dev, staging, production) for better isolation and tracking.
-  </Accordion>
-  <Accordion title="Do credentials expire?" icon="calendar">
-    No, credentials do not expire automatically. However, you should rotate them periodically as a security best practice, especially if:
-
-    - A team member with access leaves
-    - You suspect credentials may have been compromised
-    - Moving from development to production
-  </Accordion>
-  <Accordion title="What if I lose my credentials?" icon="key">
-    Contact [support@sanas.ai](mailto:support@sanas.ai) with your:
-
-    - Account/company name
-    - Technical contact information
-    - Original request date (if known)
-
-    We'll verify your identity and issue new credentials.
-  </Accordion>
-  <Accordion title="Can I share credentials with contractors/partners?" icon="users">
-    We recommend requesting separate credentials for external parties. This allows:
-
-    - Better security control
-    - Separate usage tracking
-    - Easy revocation when engagement ends
-
-    Contact support to request additional credential sets.
-  </Accordion>
-</AccordionGroup>
+---
 
 ## Support
 

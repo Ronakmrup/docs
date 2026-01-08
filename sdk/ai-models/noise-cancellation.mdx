@@ -218,17 +218,6 @@ Choose the variant that best matches your use case:
 
 ---
 
-## Sample Rate Requirements
-
-| Model | Supported Sample Rates | Recommended             |
-| :---- | :--------------------- | :---------------------- |
-| ST    | 8, 16, or 24 kHz       | 24 kHz for best quality |
-| VI-G  | 8, 16, or 24 kHz       | 16 or 24 kHz            |
-| VI-GT | 8 kHz only             | 8 kHz                   |
-| VI-N  | 8, 16, or 24 kHz       | 24 kHz for best quality |
-
----
-
 ## Use Case Examples
 
 <AccordionGroup>
@@ -290,186 +279,6 @@ Choose the variant that best matches your use case:
 | Throughput        | Real-time+ | Processes faster than real-time     |
 | Concurrency       | Unlimited  | Limited only by your infrastructure |
 
-### Real-Time Call Latency Budget
-
-```text
-Speaker → Mic capture (5-10ms)
-        → Network (20-50ms)
-        → Sanas NC (~40ms)
-        → Encoder (10-20ms)
-        → Network (20-50ms)
-        → Decoder (10-20ms)
-        → Speaker output (5-10ms)
-Total: 110-200ms end-to-end
-Sanas contribution: ~40ms (20-36% of total latency)
-```
-
-## Integration Examples
-
-### WebRTC Integration
-
-```python
-# In your WebRTC audio processing pipeline
-def process_audio_frame(frame):
-    # Get audio samples from WebRTC frame
-    audio_samples = frame.to_ndarray()
-    
-    # Process with Sanas NC
-    clean_samples = processor.ProcessSamples(audio_samples.tolist())
-    
-    # Create new frame with clean audio
-    clean_frame = av.AudioFrame.from_ndarray(
-        np.array(clean_samples), 
-        format='s16', 
-        layout='mono'
-    )
-    return clean_frame
-```
-
-### SIP/VoIP Integration
-
-```python
-# For telephony applications with 8kHz audio
-audio_params.modelName = "VI-GT"
-audio_params.sampleRate = 8000
-
-processor, _ = sdk.CreateAudioProcessor(audio_params, state_callback)
-
-# Process incoming call audio
-for rtp_packet in call_stream:
-    audio_payload = rtp_packet.payload
-    clean_audio = processor.ProcessSamples(audio_payload)
-    # Forward clean audio to recording/monitoring
-```
-
-### Recording Enhancement
-
-```python
-from wav_utils import read_wav, save_wav
-
-# Process recorded meeting
-input_audio = read_wav("meeting_recording.wav")
-clean_audio = processor.ProcessSamples(input_audio)
-save_wav("meeting_clean.wav", clean_audio, sample_rate=24000)
-```
-
-## Best Practices
-
-<CardGroup cols={2}>
-  <Card title="Model Selection" icon="sliders">
-    **Do:**
-
-    - Match model to acoustic environment
-    - Consider microphone distance
-    - Test with representative audio
-
-    **Don't:**
-
-    - Use VI-G for conference rooms (use ST)
-    - Use ST for single speaker (use VI-G)
-    - Mix models mid-stream
-  </Card>
-  <Card title="Audio Quality" icon="waveform">
-    **Do:**
-
-    - Use raw microphone input
-    - Maintain consistent sample rate
-    - Provide proper gain control
-
-    **Don't:**
-
-    - Apply other NC before Sanas
-    - Use heavily compressed audio
-    - Clip or saturate input
-  </Card>
-  <Card title="Sample Rate" icon="wave-square">
-    **Do:**
-
-    - Use 24kHz for ST and VI-N
-    - Use 16kHz for VI-G
-    - Use 8kHz only for VI-GT
-
-    **Don't:**
-
-    - Change sample rate mid-call
-    - Use \>24kHz (not supported)
-    - Mix sample rates
-  </Card>
-  <Card title="Production Deployment" icon="server">
-    **Do:**
-
-    - Test at peak concurrency
-    - Monitor processing latency
-    - Implement proper error handling
-
-    **Don't:**
-
-    - Ignore state callbacks
-    - Skip load testing
-    - Deploy without fallback
-  </Card>
-</CardGroup>
-
-## Troubleshooting
-
-<AccordionGroup>
-  <Accordion title="Voice sounds robotic or distorted" icon="triangle-exclamation">
-    **Possible causes:**
-
-    - Wrong model variant for scenario
-    - Sample rate mismatch
-    - Multiple NC stages in pipeline
-
-    **Solutions:**
-
-    - Verify model matches use case (e.g., ST for multi-speaker, not VI-G)
-    - Check sample rate matches input audio
-    - Remove any other noise cancellation before Sanas
-  </Accordion>
-  <Accordion title="Background noise not fully removed" icon="triangle-exclamation">
-    **Possible causes:**
-
-    - Model variant doesn't match scenario
-    - Microphone too far from speaker
-
-    **Solutions:**
-
-    - For single speaker, use VI-G (not ST)
-    - Check microphone distance matches model expectations:
-      - VI-N: ~30cm
-      - VI-G: ~1m
-      - ST: ~3m (preserves all speakers)
-  </Accordion>
-  <Accordion title="Background voices removed when they shouldn't be" icon="triangle-exclamation">
-    **Cause:** Using Voice Isolation model instead of Standard
-
-    **Solution:** Use ST model for multi-speaker scenarios
-
-    ```python
-    # For conference room with multiple speakers
-    audio_params.modelName = "ST"  # Not VI-G, VI-N, or VI-GT
-    ```
-  </Accordion>
-  <Accordion title="Processor creation fails" icon="triangle-exclamation">
-    **Common issues:**
-
-    - Invalid model name (check spelling: `ST`, `VI-G`, `VI-GT`, `VI-N`)
-    - Invalid sample rate for model
-    - Network connectivity
-
-    **Verify configuration:**
-
-    ```python
-    print(f"Model: {audio_params.modelName}")
-    print(f"Sample rate: {audio_params.sampleRate}")
-    
-    # Check model-specific limits:
-    # ST, VI-G, VI-N: 8, 16, or 24 kHz
-    # VI-GT: 8 kHz only
-    ```
-  </Accordion>
-</AccordionGroup>
-
 ## Next Steps
 
 <CardGroup cols={2}>
@@ -482,11 +291,8 @@ save_wav("meeting_clean.wav", clean_audio, sample_rate=24000)
   <Card title="Multi-Stream Tutorial" href="/sdk/tutorials/multi-stream">
     Handle multiple concurrent calls
   </Card>
-  <Card title="API Reference" href="/sdk/api-reference">
-    Complete SDK API documentation
-  </Card>
 </CardGroup>
 
 <Note>
-  **Not sure which model to choose?** Contact our support team at [support@sanas.ai](mailto:support@sanas.ai) or [raise a ticket](/support).
+  **Not sure which model to choose?** Contact our support team at [support@sanas.ai](mailto:support@sanas.ai) or [raise a ticket](https://support@sanas.ai).
 </Note>

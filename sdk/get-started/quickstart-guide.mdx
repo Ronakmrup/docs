@@ -14,7 +14,7 @@ Before you begin, ensure you have:
 
 - **Ubuntu 22.04 x86-64** (other Linux distros coming soon)
 - **Python 3.10 or higher**
-- **SDK credentials** – [Request access](/sdk/getting-started/authentication) if you don't have them yet
+- **SDK credentials** – [Request access](/sdk/get-started/authentication) if you don't have them yet
 
 ---
 
@@ -156,7 +156,7 @@ sdk.Shutdown()
 ## Step 4: Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Process a WAV File" icon="file-audio" href="/sdk/tutorials/single-stream">
+  <Card title="Handle single audio stream" icon="file-audio" href="/sdk/tutorials/single-stream">
     **Tutorial:** Complete example processing WAV files with proper timing
 
     → Takes 10 minutes
@@ -166,46 +166,4 @@ sdk.Shutdown()
 
     → Takes 15 minutes
   </Card>
-  <Card title="Explore Model Parameters" icon="sliders" href="/sdk/ai-models">
-    **Deep Dive:** Understand configuration, modes, and tuning options
-
-    → Reference docs
-  </Card>
-  <Card title="Deploy to Production" icon="rocket" href="/sdk/deployment">
-    **Production:** Learn about Sanas Cloud vs Self-hosted deployment
-
-    → Deployment guide
-  </Card>
 </CardGroup>
-
-## Troubleshooting
-
-<AccordionGroup>
-  <Accordion title="Import error: No module named 'sanas_remote_sdk'" icon="triangle-exclamation">
-    **Cause:** SDK not installed or wrong Python version
-
-    **Fix:**
-
-    ```bash
-    python3 --version  # Verify Python 3.10+
-    ./install.sh       # Re-run installer
-    ```
-  </Accordion>
-  <Accordion title="Initialize() returns error" icon="triangle-exclamation">
-    **Cause:** Wrong credentials or endpoint URL
-
-    **Fix:**
-
-    - Verify `remoteEndpoint`, `accountId`, and `accountSecret` match your credentials email
-    - Check network connectivity to Sanas Cloud
-    - Try `secureMedia = False` for testing
-  </Accordion>
-  <Accordion title="CreateAudioProcessor() fails" icon="triangle-exclamation">
-    **Cause:** Invalid model name or sample rate
-
-    **Fix:**
-
-    - AI Voice Agent: Use `ASR_NC3.0_VAD0.6` with `sampleRate ≤ 16000`
-    - Noise Cancellation: Use `ST`, `VI-G`, `VI-GT`, or `VI-N` with appropriate sample rate
-  </Accordion>
-</AccordionGroup>
