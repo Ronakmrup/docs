@@ -1,0 +1,492 @@
+---
+title: "Noise Cancellation"
+description: "Real-time noise cancellation for human communication"
+icon: "volume-xmark"
+---
+
+<Info>
+  **Model Variants:** ST, VI-G, VI-GT, VI-N\
+  **Max Sample Rate:** 24 kHz (8 kHz for VI-GT)\
+  **Latency:** ~40ms (streaming)\
+  **Use Case:** Human calls, conferencing, gaming, media
+</Info>
+
+## Introduction
+
+Sanas Noise Cancellation (NC) provides AI-powered noise cancellation that extracts voices from noisy signals in real-time across any acoustic conditions. With low latency and minimal computing cost, NC delivers clean speech waveforms suitable for human communication.
+
+Designed for real-time inference, NC works in both streaming (live audio) and offline (recorded files) scenarios, making it versatile for any voice communication application.
+
+### Why Sanas Noise Cancellation?
+
+<CardGroup cols={2}>
+  <Card title="Real-Time Processing" icon="bolt">
+    \
+    ~40ms latency suitable for live conversations without noticeable delay
+  </Card>
+  <Card title="Multiple Variants" icon="sliders">
+    \
+    4 specialized models optimized for different acoustic scenarios
+  </Card>
+  <Card title="Natural Voice Quality" icon="waveform">
+    \
+    Preserves voice characteristics and emotional tone while removing noise
+  </Card>
+  <Card title="Low Compute Cost" icon="microchip">
+    \
+    Efficient processing enables high concurrency on standard hardware
+  </Card>
+</CardGroup>
+
+---
+
+## Model Variants
+
+Choose the variant that best matches your use case:
+
+<Tabs>
+  <Tab title="ST - Multi-Speaker">
+    ### Standard Mode (ST)
+
+    **Preserves:** All speech within ~3m of microphone\
+    **Removes:** Background environmental noises\
+    **Max Sample Rate:** 24 kHz
+
+    **Use cases:**
+
+    - Conference rooms with multiple speakers
+    - Meeting recordings
+    - Panel discussions
+    - Classroom recordings
+
+    **Configuration:**
+
+    ```python
+    audio_params.modelName = "ST"
+    audio_params.sampleRate = 24000  # Up to 24kHz
+    ```
+
+    **Audio Sample:**
+
+    <Tabs>
+      <Tab title="Input">
+        _Primary speaker + 2 background voices + keyboard typing + AC noise_
+      </Tab>
+      <Tab title="Output">
+        _All 3 voices preserved, keyboard & AC noise removed_
+      </Tab>
+    </Tabs>
+  </Tab>
+  <Tab title="VI-G - General Purpose">
+    ### Voice Isolation - General (VI-G)
+
+    **Preserves:** Primary speaker up to ~1m\
+    **Removes:** Background voices, noise, and chatter\
+    **Max Sample Rate:** 24 kHz
+
+    **Use cases:**
+
+    - General-purpose microphones
+    - Voice agents and bots
+    - Customer service calls
+    - Single-speaker recordings
+
+    **Configuration:**
+
+    ```python
+    audio_params.modelName = "VI-G"
+    audio_params.sampleRate = 16000  # Or up to 24kHz
+    ```
+
+    **Audio Sample:**
+
+    <Tabs>
+      <Tab title="Input">
+        _Primary speaker + traffic noise + dog barking + wind_
+      </Tab>
+      <Tab title="Output">
+        _Only primary speaker, all background removed_
+      </Tab>
+    </Tabs>
+  </Tab>
+  <Tab title="VI-GT - Telephony">
+    ### Voice Isolation - General Telephony (VI-GT)
+
+    **Preserves:** Primary speaker (optimized for 8kHz)\
+    **Removes:** Noise in bandwidth-limited streams\
+    **Max Sample Rate:** 8 kHz
+
+    **Use cases:**
+
+    - Phone calls (PSTN)
+    - VoIP applications
+    - Call centers
+    - Legacy telephony systems
+
+    **Configuration:**
+
+    ```python
+    audio_params.modelName = "VI-GT"
+    audio_params.sampleRate = 8000  # 8kHz only
+    ```
+
+    **Audio Sample:**
+
+    <Tabs>
+      <Tab title="Input">
+        _8kHz phone call with office background_
+      </Tab>
+      <Tab title="Output">
+        _Clean voice, office noise removed_
+      </Tab>
+    </Tabs>
+  </Tab>
+  <Tab title="VI-N - Headset">
+    ### Voice Isolation - Nearfield (VI-N)
+
+    **Preserves:** Primary speaker at ~30cm proximity\
+    **Removes:** All noise with maximum speech clarity\
+    **Max Sample Rate:** 24 kHz
+
+    **Use cases:**
+
+    - Headset microphones
+    - Gaming voice chat
+    - Close-proximity recordings
+    - Podcasting
+
+    **Configuration:**
+
+    ```python
+    audio_params.modelName = "VI-N"
+    audio_params.sampleRate = 24000
+    ```
+
+    **Audio Sample:**
+
+    <Tabs>
+      <Tab title="Input">
+        _Headset mic with keyboard, mouse clicks, fan noise_
+      </Tab>
+      <Tab title="Output">
+        _Crystal-clear voice, all peripherals silent_
+      </Tab>
+    </Tabs>
+  </Tab>
+</Tabs>
+
+### Model Comparison Table
+
+| Model         | Model Code | Max Sample Rate | Speech Output | Typical Distance | Best For                     |
+| :------------ | :--------- | :-------------- | :------------ | :--------------- | :--------------------------- |
+| **Standard**  | `ST`       | ≤ 24 kHz        | All speakers  | ~3m              | Conference rooms, meetings   |
+| **General**   | `VI-G`     | ≤ 24 kHz        | Primary only  | ~1m              | General calls, voice agents  |
+| **Telephony** | `VI-GT`    | 8 kHz           | Primary only  | Any              | Phone, VoIP, call centers    |
+| **Nearfield** | `VI-N`     | ≤ 24 kHz        | Primary only  | ~30cm            | Headsets, gaming, podcasting |
+
+---
+
+## Model Selection Guide
+
+<Steps>
+  <Step title="Identify your scenario">
+    **How many speakers do you need to preserve?**
+
+    - Multiple speakers → Use **ST** (Standard)
+    - Single speaker → Continue to Step 2
+  </Step>
+  <Step title="What's your microphone type?">
+    **For single speaker scenarios:**
+
+    - Headset/close-proximity mic (~30cm) → Use **VI-N** (Nearfield)
+    - Phone/VoIP (8kHz) → Use **VI-GT** (Telephony)
+    - General microphone (~1m) → Use **VI-G** (General)
+  </Step>
+  <Step title="Configure in SDK">
+    Set the model name in your audio parameters:
+
+    ```python
+    audio_params.modelName = "VI-G"  # Your chosen model
+    audio_params.sampleRate = 16000   # Appropriate sample rate
+    ```
+  </Step>
+</Steps>
+
+<Note>
+  For complete setup instructions, see the [Quickstart Guide](/sdk/getting-started/quickstart).
+</Note>
+
+---
+
+## Sample Rate Requirements
+
+| Model | Supported Sample Rates | Recommended             |
+| :---- | :--------------------- | :---------------------- |
+| ST    | 8, 16, or 24 kHz       | 24 kHz for best quality |
+| VI-G  | 8, 16, or 24 kHz       | 16 or 24 kHz            |
+| VI-GT | 8 kHz only             | 8 kHz                   |
+| VI-N  | 8, 16, or 24 kHz       | 24 kHz for best quality |
+
+---
+
+## Use Case Examples
+
+<AccordionGroup>
+  <Accordion title="Contact Center Application">
+    **Scenario:** Agent-customer phone calls with office background noise
+
+    **Recommended Model:** VI-GT (Telephony)
+
+    ```python
+    audio_params.modelName = "VI-GT"
+    audio_params.sampleRate = 8000
+    ```
+
+    **Why**: Optimized for 8kHz telephony signals, removes office background while preserving natural phone call quality.
+  </Accordion>
+  <Accordion title="Video Conference Application">
+    **Scenario:** Conference room with 3-5 participants around table
+
+    **Recommended Model:** ST (Multi-Speaker)
+
+    ```python
+    audio_params.modelName = "ST"
+    audio_params.sampleRate = 24000
+    ```
+
+    **Why**: Preserves all speakers within ~3m, removes AC noise and keyboard typing without losing any participant's voice.
+  </Accordion>
+  <Accordion title="Gaming Voice Chat">
+    **Scenario:** Headset microphone with keyboard, mouse, and fan noise
+
+    **Recommended Model:** VI-N (Nearfield)
+
+    ```python
+    audio_params.modelName = "VI-N"
+    audio_params.sampleRate = 24000
+    ```
+
+    Why: Optimized for close-proximity headsets, provides maximum clarity by removing all peripheral device noise.
+  </Accordion>
+  <Accordion title="Customer Service Bot">
+    **Scenario:** General microphone in home/office environment
+
+    **Recommended Model:** VI-G (General)
+
+    ```python
+    audio_params.modelName = "VI-G"
+    audio_params.sampleRate = 16000
+    ```
+
+    Why: Balances noise removal with natural voice preservation for typical microphone distances (~1m).
+  </Accordion>
+</AccordionGroup>
+
+## Latency & Performance
+
+| Metric            | Value      | Description                         |
+| :---------------- | :--------- | :---------------------------------- |
+| Streaming Latency | ~40ms      | Per-chunk processing time           |
+| Throughput        | Real-time+ | Processes faster than real-time     |
+| Concurrency       | Unlimited  | Limited only by your infrastructure |
+
+### Real-Time Call Latency Budget
+
+```text
+Speaker → Mic capture (5-10ms)
+        → Network (20-50ms)
+        → Sanas NC (~40ms)
+        → Encoder (10-20ms)
+        → Network (20-50ms)
+        → Decoder (10-20ms)
+        → Speaker output (5-10ms)
+Total: 110-200ms end-to-end
+Sanas contribution: ~40ms (20-36% of total latency)
+```
+
+## Integration Examples
+
+### WebRTC Integration
+
+```python
+# In your WebRTC audio processing pipeline
+def process_audio_frame(frame):
+    # Get audio samples from WebRTC frame
+    audio_samples = frame.to_ndarray()
+    
+    # Process with Sanas NC
+    clean_samples = processor.ProcessSamples(audio_samples.tolist())
+    
+    # Create new frame with clean audio
+    clean_frame = av.AudioFrame.from_ndarray(
+        np.array(clean_samples), 
+        format='s16', 
+        layout='mono'
+    )
+    return clean_frame
+```
+
+### SIP/VoIP Integration
+
+```python
+# For telephony applications with 8kHz audio
+audio_params.modelName = "VI-GT"
+audio_params.sampleRate = 8000
+
+processor, _ = sdk.CreateAudioProcessor(audio_params, state_callback)
+
+# Process incoming call audio
+for rtp_packet in call_stream:
+    audio_payload = rtp_packet.payload
+    clean_audio = processor.ProcessSamples(audio_payload)
+    # Forward clean audio to recording/monitoring
+```
+
+### Recording Enhancement
+
+```python
+from wav_utils import read_wav, save_wav
+
+# Process recorded meeting
+input_audio = read_wav("meeting_recording.wav")
+clean_audio = processor.ProcessSamples(input_audio)
+save_wav("meeting_clean.wav", clean_audio, sample_rate=24000)
+```
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Model Selection" icon="sliders">
+    **Do:**
+
+    - Match model to acoustic environment
+    - Consider microphone distance
+    - Test with representative audio
+
+    **Don't:**
+
+    - Use VI-G for conference rooms (use ST)
+    - Use ST for single speaker (use VI-G)
+    - Mix models mid-stream
+  </Card>
+  <Card title="Audio Quality" icon="waveform">
+    **Do:**
+
+    - Use raw microphone input
+    - Maintain consistent sample rate
+    - Provide proper gain control
+
+    **Don't:**
+
+    - Apply other NC before Sanas
+    - Use heavily compressed audio
+    - Clip or saturate input
+  </Card>
+  <Card title="Sample Rate" icon="wave-square">
+    **Do:**
+
+    - Use 24kHz for ST and VI-N
+    - Use 16kHz for VI-G
+    - Use 8kHz only for VI-GT
+
+    **Don't:**
+
+    - Change sample rate mid-call
+    - Use \>24kHz (not supported)
+    - Mix sample rates
+  </Card>
+  <Card title="Production Deployment" icon="server">
+    **Do:**
+
+    - Test at peak concurrency
+    - Monitor processing latency
+    - Implement proper error handling
+
+    **Don't:**
+
+    - Ignore state callbacks
+    - Skip load testing
+    - Deploy without fallback
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Voice sounds robotic or distorted" icon="triangle-exclamation">
+    **Possible causes:**
+
+    - Wrong model variant for scenario
+    - Sample rate mismatch
+    - Multiple NC stages in pipeline
+
+    **Solutions:**
+
+    - Verify model matches use case (e.g., ST for multi-speaker, not VI-G)
+    - Check sample rate matches input audio
+    - Remove any other noise cancellation before Sanas
+  </Accordion>
+  <Accordion title="Background noise not fully removed" icon="triangle-exclamation">
+    **Possible causes:**
+
+    - Model variant doesn't match scenario
+    - Microphone too far from speaker
+
+    **Solutions:**
+
+    - For single speaker, use VI-G (not ST)
+    - Check microphone distance matches model expectations:
+      - VI-N: ~30cm
+      - VI-G: ~1m
+      - ST: ~3m (preserves all speakers)
+  </Accordion>
+  <Accordion title="Background voices removed when they shouldn't be" icon="triangle-exclamation">
+    **Cause:** Using Voice Isolation model instead of Standard
+
+    **Solution:** Use ST model for multi-speaker scenarios
+
+    ```python
+    # For conference room with multiple speakers
+    audio_params.modelName = "ST"  # Not VI-G, VI-N, or VI-GT
+    ```
+  </Accordion>
+  <Accordion title="Processor creation fails" icon="triangle-exclamation">
+    **Common issues:**
+
+    - Invalid model name (check spelling: `ST`, `VI-G`, `VI-GT`, `VI-N`)
+    - Invalid sample rate for model
+    - Network connectivity
+
+    **Verify configuration:**
+
+    ```python
+    print(f"Model: {audio_params.modelName}")
+    print(f"Sample rate: {audio_params.sampleRate}")
+    
+    # Check model-specific limits:
+    # ST, VI-G, VI-N: 8, 16, or 24 kHz
+    # VI-GT: 8 kHz only
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" href="/sdk/getting-started/quickstart">
+    Complete setup and initialization instructions
+  </Card>
+  <Card title="Single Stream Tutorial" href="/sdk/tutorials/single-stream">
+    Process WAV files end-to-end
+  </Card>
+  <Card title="Multi-Stream Tutorial" href="/sdk/tutorials/multi-stream">
+    Handle multiple concurrent calls
+  </Card>
+  <Card title="API Reference" href="/sdk/api-reference">
+    Complete SDK API documentation
+  </Card>
+</CardGroup>
+
+<Note>
+  **Not sure which model to choose?** Contact our support team at [support@sanas.ai](mailto:support@sanas.ai) or [raise a ticket](/support).
+</Note>

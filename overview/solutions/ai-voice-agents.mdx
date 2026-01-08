@@ -1,0 +1,186 @@
+---
+title: "AI Voice Agents"
+description: "Improve ASR accuracy for conversational AI in noisy environments"
+icon: "robot"
+---
+
+## Overview
+
+Voice AI agents struggle with speech recognition in real-world environments. Background noise, chatter, and ambient sounds cause high Word Error Rates (WER), leading to misunderstandings and poor user experiences.
+
+The **AI Voice Agent** model solves this by applying specialized noise cancellation optimized for ASR pipelines—preserving acoustic features that speech recognition models need while removing distracting noise.
+
+**Result:** 5-30% WER improvement without degradation on clean audio.
+
+---
+
+## How It Works
+
+<Steps>
+  <Step title="Capture audio from user">
+    A microphone captures user's speech in a noisy environment (cafe, office, street)
+  </Step>
+  <Step title="Process through Sanas AI Voice Agent">
+    Model removes background noise while preserving phonetic information for ASR
+  </Step>
+  <Step title="Send clean audio to your ASR">
+    Works with any ASR: Deepgram, Google, Whisper, Azure, etc.
+  </Step>
+  <Step title="Get accurate transcription">
+    Lower WER means better downstream NLP and conversation quality
+  </Step>
+</Steps>
+
+**Architecture Diagram:**
+
+```
+┌──────────┐ ┌─────────────────┐ ┌──────┐ ┌─────┐ ┌─────────┐
+│ Mic/User │ -> │ Sanas SDK      │ -> │ ASR  │ -> │ LLM │ -> │ Speaker │
+│          │    │ (AI Voice Agent)│    │      │    │     │    │         │
+└──────────┘ └─────────────────┘ └──────┘ └─────┘ └─────────┘
+   Noisy       Clean audio        Low WER   Natural   Great UX
+ environment   (~40ms latency)             response
+```
+
+---
+
+## Key Benefits
+
+<CardGroup cols={2}>
+  <Card title="5-30% WER Improvement" icon="chart-line">
+    Proven reduction in Word Error Rate across major ASR systems
+  </Card>
+  <Card title="ASR-Agnostic" icon="plug">
+    Works with any ASR: Deepgram, Google, Whisper, Azure, AWS
+  </Card>
+  <Card title="No Clean Audio Penalty" icon="check">
+    Zero degradation when audio is already clean
+  </Card>
+  <Card title="Real-Time Performance" icon="gauge-high">
+    ~40ms latency suitable for live conversations
+  </Card>
+</CardGroup>
+
+---
+
+## Use Cases
+
+| Industry             | Use Case                     | Impact                           |
+| :------------------- | :--------------------------- | :------------------------------- |
+| **Customer Service** | AI phone support bots        | Higher first-call resolution     |
+| **Healthcare**       | Medical transcription agents | Accurate diagnosis documentation |
+| **Finance**          | Banking voice assistants     | Reduced transaction errors       |
+| **Automotive**       | In-car voice commands        | Works in highway noise           |
+| **Smart Home**       | Voice assistants             | Kitchen/TV noise immunity        |
+
+---
+
+## Performance Example
+
+### Real-World Test: Background Chatter & Noise
+
+**Environment:** Speaker with cutlery sounds, background conversation, restaurant ambient noise
+
+<Tabs>
+  <Tab title="Audio Comparison">
+    **Input Audio (Noisy):**
+
+    [Listen to noisy input →]
+
+    **Output Audio (Sanas Enhanced):**
+
+    [Listen to clean output →]
+  </Tab>
+  <Tab title="ASR Results">
+    **Oracle Transcript:**
+
+    > "even in small moments there was joy to be found a leaf fluttered to be ground turning in the breeze before landing gently on the soft earth"
+
+    **Without Sanas (33% WER):**
+
+    > "even in small moments there was joy to be found **famous ali** fluttered to be ground **slapping and** turning in the breeze before landing gently on the soft earth **instagram i have bought i i went there so** a distant laughed echoed light..."
+
+    **With Sanas AI Voice Agent (0.2% WER):**
+
+    > "even in small moments there was joy to be found **ali** fluttered to be ground turning in the breeze before landing gently on the soft earth a distant laughter echoed light and unplanned..."
+
+    **ASR Used:** Deepgram Nova3 Streaming
+  </Tab>
+</Tabs>
+
+---
+
+## Quick Start (30 seconds)
+
+```python
+import sanas_remote_sdk
+
+# Initialize SDK
+sdk = sanas_remote_sdk.CreateRemoteSDK()
+init_params = sanas_remote_sdk.InitParams()
+init_params.remoteEndpoint = "your_endpoint"
+init_params.accountId = "your_account_id"
+init_params.accountSecret = "your_account_secret"
+sdk.Initialize(init_params)
+
+# Create AI Voice Agent processor
+audio_params = sanas_remote_sdk.AudioParams()
+audio_params.modelName = "ASR_NC3.0_VAD0.6"
+audio_params.sampleRate = 16000
+
+processor, result = sdk.CreateAudioProcessor(audio_params, state_callback)
+
+# Process audio in real-time
+for chunk in audio_stream:
+    clean_audio = processor.ProcessSamples(chunk)
+    # Send clean_audio to your ASR
+```
+
+<CardGroup cols={2}>
+  <Card title="Full Implementation Guide" href="/sdk/ai-models/ai-voice-agent">
+    Complete parameters, modes, and examples
+  </Card>
+  <Card title="Tutorial: Single Stream" href="/sdk/tutorials/single-stream">
+    End-to-end working example
+  </Card>
+</CardGroup>
+
+## Deployment Options
+
+<Tabs>
+  <Tab title="Sanas Cloud">
+    **Recommended:** Fastest way to production
+
+    - Managed infrastructure
+    - Auto-scaling
+    - Available in Mumbai (AWS ap-south-1)
+
+    [Get started →](/sdk/getting-started/quickstart)
+  </Tab>
+  <Tab title="Self-Hosted">
+    **For compliance & data residency**
+
+    - Deploy on your infrastructure
+    - Full control over data
+    - Requires setup assistance
+
+    [Contact support →](/support)
+  </Tab>
+</Tabs>
+
+## Next Steps
+
+<Steps>
+  <Step title="Get SDK credentials">
+    [Request access →](/sdk/getting-started/authentication)
+  </Step>
+  <Step title="Install SDK">
+    [Quickstart guide →](/sdk/getting-started/quickstart)
+  </Step>
+  <Step title="Integrate with your ASR">
+    [View tutorials →](/sdk/tutorials/single-stream)
+  </Step>
+  <Step title="Deploy to production">
+    [Deployment options →](/sdk/deployment)
+  </Step>
+</Steps>

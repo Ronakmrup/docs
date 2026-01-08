@@ -1,0 +1,174 @@
+---
+title: "Crystal Clear Calls"
+description: "Remove background noise from human conversations in real-time"
+icon: "phone"
+---
+
+## Overview
+
+Real-world voice calls experience suffers from background noise that degrades audio quality and user experience. Office chatter, traffic sounds, keyboard typing, and ambient noise make conversations difficult and unprofessional.
+
+The **Noise Cancellation** models remove unwanted background noise while preserving natural voice quality, delivering crystal-clear audio in any acoustic environment.
+
+---
+
+## How It Works
+
+<Steps>
+  <Step title="Capture audio">
+    The microphone captures the speaker's voice + background noise.
+  </Step>
+  <Step title="Process through Sanas NC">
+    Model removes background noise based on the selected variant (multi-speaker, single-speaker, telephony, or headset)
+  </Step>
+  <Step title="Deliver clean audio">
+    Clean audio sent to encoder/network for transmission
+  </Step>
+  <Step title="Great call experience">
+    The recipient hears a clear voice without distractions
+  </Step>
+</Steps>
+
+**Architecture Diagram:** ┌──────────┐ ┌──────────────┐ ┌─────────┐ ┌──────────┐ │ Mic/User │ -\> │ Sanas SDK │ -\> │ Encoder │ -\> │ Receiver │ │ │ │ (NC Model) │ │ │ │ │ └──────────┘ └──────────────┘ └─────────┘ └──────────┘ 
+
+Noisy Clean audio Network Clear audio environment (~40ms latency) transmission experience
+
+---
+
+## Choose Your Model
+
+Sanas provides **4 Noise Cancellation variants** optimized for different scenarios:
+
+<CardGroup cols={2}>
+  <Card title="Multi-Speaker (ST)" icon="users" href="/sdk/ai-models/noise-cancellation#st">
+    **Preserves:** All voices within ~3m\
+    **Removes:** Noise and cross-talk\
+    **Use:** Conference rooms, meetings
+
+    [View details →](/sdk/ai-models/noise-cancellation#st)
+  </Card>
+  <Card title="General Purpose (VI-G)" icon="microphone" href="/sdk/ai-models/noise-cancellation#vi-g">
+    **Preserves:** Primary speaker up to ~1m\
+    **Removes:** Background voices & noise\
+    **Use:** General calls, voice agents
+
+    [View details →](/sdk/ai-models/noise-cancellation#vi-g)
+  </Card>
+  <Card title="Telephony (VI-GT)" icon="phone" href="/sdk/ai-models/noise-cancellation#vi-gt">
+    **Preserves:** Primary speaker (8kHz optimized)\
+    **Removes:** Noise in bandwidth-limited streams\
+    **Use:** Phone calls, VoIP, call centers
+
+    [View details →](/sdk/ai-models/noise-cancellation#vi-gt)
+  </Card>
+  <Card title="Headset (VI-N)" icon="headset" href="/sdk/ai-models/noise-cancellation#vi-n">
+    **Preserves:** Primary speaker at ~30cm\
+    **Removes:** All noise with max clarity\
+    **Use:** Headsets, gaming, close mics
+
+    [View details →](/sdk/ai-models/noise-cancellation#vi-n)
+  </Card>
+</CardGroup>
+
+---
+
+## Audio Samples
+
+### Multi-Speaker Environment (ST Model)
+
+**Scenario:** Conference room with multiple speakers
+
+<Tabs>
+  <Tab title="Input Audio">
+    [🔊 Listen: Primary speaker + 2 background voices + keyboard typing + AC noise]
+  </Tab>
+  <Tab title="Output Audio">
+    [🔊 Listen: All 3 speakers preserved, keyboard & AC removed]
+  </Tab>
+</Tabs>
+
+### Single Speaker (VI-G Model)
+
+**Scenario:** Home office with street noise
+
+<Tabs>
+  <Tab title="Input Audio">
+    [🔊 Listen: Primary speaker + traffic + dog barking + wind]
+  </Tab>
+  <Tab title="Output Audio">
+    [🔊 Listen: Only primary speaker, all noise removed]
+  </Tab>
+</Tabs>
+
+[View all audio samples →](/sdk/ai-models/noise-cancellation#audio-samples)
+
+---
+
+## Use Cases
+
+| Industry            | Use Case             | Model Recommendation |
+| :------------------ | :------------------- | :------------------- |
+| **Contact Centers** | Agent-customer calls | VI-GT (Telephony)    |
+| **Remote Work**     | Video conferences    | ST (Multi-Speaker)   |
+| **Gaming**          | Voice chat           | VI-N (Headset)       |
+| **Telemedicine**    | Doctor-patient calls | VI-G (General)       |
+| **Education**       | Online classes       | ST (Multi-Speaker)   |
+
+---
+
+## Quick Start (30 seconds)
+
+```python
+import sanas_remote_sdk
+
+# Initialize SDK
+sdk = sanas_remote_sdk.CreateRemoteSDK()
+init_params = sanas_remote_sdk.InitParams()
+init_params.remoteEndpoint = "your_endpoint"
+init_params.accountId = "your_account_id"
+init_params.accountSecret = "your_account_secret"
+sdk.Initialize(init_params)
+
+# Create Noise Cancellation processor
+audio_params = sanas_remote_sdk.AudioParams()
+audio_params.modelName = "VI-G"  # General Purpose
+audio_params.sampleRate = 16000
+
+processor, result = sdk.CreateAudioProcessor(audio_params, state_callback)
+
+# Process audio in real-time
+for chunk in audio_stream:
+    clean_audio = processor.ProcessSamples(chunk)
+    # Send clean_audio to encoder/network
+```
+
+<CardGroup cols={2}>
+  <Card title="Full Implementation Guide" href="/sdk/ai-models/noise-cancellation">
+    Complete parameters, all 4 models, examples
+  </Card>
+  <Card title="Tutorial: Multi-Stream Calls" href="/sdk/tutorials/multi-stream">
+    Handle multiple concurrent calls
+  </Card>
+</CardGroup>
+
+---
+
+## Next Steps
+
+<Steps>
+   <Step title="Get SDK credentials">
+     Request access → 
+  </Step>
+   <Step title="Install SDK">
+     Quickstart guide → 
+  </Step>
+   <Step title="Choose your model">
+     Model comparison → 
+  </Step>
+   <Step title="Integrate into your app">
+     View tutorials → 
+  </Step>
+   
+</Steps>
+
+ \`\`\`

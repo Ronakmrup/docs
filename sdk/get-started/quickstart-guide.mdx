@@ -1,0 +1,211 @@
+---
+title: "Quickstart Guide"
+description: "Get up and running with Sanas SDK in 5 minutes"
+icon: "bolt-lightning"
+---
+
+<Info>
+  **New to Sanas?** This guide will take you from zero to processing your first audio stream in under 10 minutes.
+</Info>
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- **Ubuntu 22.04 x86-64** (other Linux distros coming soon)
+- **Python 3.10 or higher**
+- **SDK credentials** – [Request access](/sdk/getting-started/authentication) if you don't have them yet
+
+---
+
+## Step 1: Install the SDK
+
+1. Download your SDK connector file (e.g., `sanas_remote_sdk_<platform-arch>_<version>.tar.gz`)
+2. Extract and install:
+
+```bash
+tar -zxvf sanas_remote_sdk_<platform-arch>_<version>.tar.gz
+cd sanas_remote_sdk_<platform-arch>_<version>
+./install.sh
+```
+
+## Verify installation
+
+```bash
+python3 -c "import sanas_remote_sdk; print('SDK installed successfully!')"
+```
+
+## Step 2: Choose Your AI Model
+
+Which problem are you solving?
+
+<Tabs>
+  <Tab title="🤖 AI Voice Agents">
+    **Problem:** Your voice agent has poor ASR accuracy in noisy environments
+
+    **Solution:** AI Voice Agent model (improves WER by 5-30%)
+
+    **Model code:** `ASR_NC3.0_VAD0.6`
+
+    **Sample rate:** ≤ 16 kHz
+
+    [Learn more about this model →](/sdk/ai-models/ai-voice-agent)
+  </Tab>
+  <Tab title="📞 Human Calls">
+    **Problem:** Background noise on calls (office, street, home)
+
+    **Solution:** Noise Cancellation (multiple variants)
+
+    **Choose variant:**
+
+    - **Conference calls:** `ST` (Multi-Speaker)
+    - **General calls:** `VI-G` (General Purpose)
+    - **Phone/VoIP:** `VI-GT` (Telephony)
+    - **Headset/gaming:** `VI-N` (Nearfield)
+
+    [Compare NC models →](/sdk/ai-models/noise-cancellation)
+  </Tab>
+</Tabs>
+
+## Step 3: Run Your First Example
+
+Copy and paste this complete working example:
+
+<CodeGroup>
+
+```
+import sanas_remote_sdk
+
+# Initialize SDK
+sdk = sanas_remote_sdk.CreateRemoteSDK()
+
+init_params = sanas_remote_sdk.InitParams()
+init_params.remoteEndpoint = "your_endpoint_url"  # From credentials email
+init_params.accountId = "your_account_id"
+init_params.accountSecret = "your_account_secret"
+init_params.secureMedia = True
+
+result = sdk.Initialize(init_params)
+print(f"SDK initialized: {result}")
+
+# State callback
+def state_callback(state, reason):
+    if state == sanas_remote_sdk.ProcessorState.READY:
+        print("Processor ready!")
+
+# Create AI Voice Agent processor
+audio_params = sanas_remote_sdk.AudioParams()
+audio_params.modelName = "ASR_NC3.0_VAD0.6"
+audio_params.sampleRate = 16000  # 16kHz for AI Voice Agent
+
+processor, create_result = sdk.CreateAudioProcessor(audio_params, state_callback)
+
+if create_result == sanas_remote_sdk.CreateProcessorResult.SUCCESS:
+    # Process audio chunks (example with dummy data)
+    input_audio = [0.1] * 320  # 20ms at 16kHz
+    output_audio = processor.ProcessSamples(input_audio)
+    print(f"Processed {len(output_audio)} samples")
+    
+    # Now send output_audio to your ASR system
+
+# Cleanup
+sdk.DestroyAudioProcessor(processor)
+sdk.Shutdown()
+```
+
+
+```
+import sanas_remote_sdk
+
+# Initialize SDK
+sdk = sanas_remote_sdk.CreateRemoteSDK()
+
+init_params = sanas_remote_sdk.InitParams()
+init_params.remoteEndpoint = "your_endpoint_url"
+init_params.accountId = "your_account_id"
+init_params.accountSecret = "your_account_secret"
+init_params.secureMedia = True
+
+result = sdk.Initialize(init_params)
+
+# State callback
+def state_callback(state, reason):
+    if state == sanas_remote_sdk.ProcessorState.READY:
+        print("Processor ready!")
+
+# Create Noise Cancellation processor
+audio_params = sanas_remote_sdk.AudioParams()
+audio_params.modelName = "VI-G"  # General Purpose
+audio_params.sampleRate = 16000
+
+processor, create_result = sdk.CreateAudioProcessor(audio_params, state_callback)
+
+if create_result == sanas_remote_sdk.CreateProcessorResult.SUCCESS:
+    # Process audio chunks
+    input_audio = [0.1] * 320  # 20ms at 16kHz
+    output_audio = processor.ProcessSamples(input_audio)
+    print(f"Processed {len(output_audio)} samples")
+
+# Cleanup
+sdk.DestroyAudioProcessor(processor)
+sdk.Shutdown()
+```
+
+</CodeGroup>
+
+## Step 4: Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Process a WAV File" icon="file-audio" href="/sdk/tutorials/single-stream">
+    **Tutorial:** Complete example processing WAV files with proper timing
+
+    → Takes 10 minutes
+  </Card>
+  <Card title="Handle Multiple Streams" icon="stream" href="/sdk/tutorials/multi-stream">
+    **Tutorial:** Process multiple concurrent calls or streams
+
+    → Takes 15 minutes
+  </Card>
+  <Card title="Explore Model Parameters" icon="sliders" href="/sdk/ai-models">
+    **Deep Dive:** Understand configuration, modes, and tuning options
+
+    → Reference docs
+  </Card>
+  <Card title="Deploy to Production" icon="rocket" href="/sdk/deployment">
+    **Production:** Learn about Sanas Cloud vs Self-hosted deployment
+
+    → Deployment guide
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Import error: No module named 'sanas_remote_sdk'" icon="triangle-exclamation">
+    **Cause:** SDK not installed or wrong Python version
+
+    **Fix:**
+
+    ```bash
+    python3 --version  # Verify Python 3.10+
+    ./install.sh       # Re-run installer
+    ```
+  </Accordion>
+  <Accordion title="Initialize() returns error" icon="triangle-exclamation">
+    **Cause:** Wrong credentials or endpoint URL
+
+    **Fix:**
+
+    - Verify `remoteEndpoint`, `accountId`, and `accountSecret` match your credentials email
+    - Check network connectivity to Sanas Cloud
+    - Try `secureMedia = False` for testing
+  </Accordion>
+  <Accordion title="CreateAudioProcessor() fails" icon="triangle-exclamation">
+    **Cause:** Invalid model name or sample rate
+
+    **Fix:**
+
+    - AI Voice Agent: Use `ASR_NC3.0_VAD0.6` with `sampleRate ≤ 16000`
+    - Noise Cancellation: Use `ST`, `VI-G`, `VI-GT`, or `VI-N` with appropriate sample rate
+  </Accordion>
+</AccordionGroup>

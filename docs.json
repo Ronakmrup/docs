@@ -11,97 +11,55 @@
   "favicon": "images/sanas-favicon.png",
 
   "navigation": {
-    "tabs": [
-      {
-        "tab": "Introduction",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": [
-              "overview/Introduction"
-            ]
-          },
-          {
-            "group": "Capabilities",
-            "pages": [
-              "overview/ASR-Aware Noise Cancellation",
-              "overview/NC-Enhanced Voice Activity Detection",
-              "overview/Noise Cancellation",
-              "overview/Voice Activity Detection",
-              "overview/Accent Translation",
-              "overview/Active Speech Recognition",
-              "overview/Speech-To-Text",
-              "overview/Text-To-Speech"
-            ]
-          }
-        ]
-      },
-
-      {
-        "tab": "Sanas Agent Platform",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "Agent-platform/get-started/Overview",
-              "Agent-platform/get-started/Quickstart",
-              "Agent-platform/get-started/Authentication",
-              "Agent-platform/get-started/Reference"
-            ]
-          },
-          {
-            "group": "Models",
-            "pages": [
-              "Agent-platform/models/noise-cancellation",
-              "Agent-platform/models/voice-activity-detection",
-              "Agent-platform/models/asr-aware-noise-cancellation"
-            ]
-          },
-          
-          {
-            "group": "Developer guides",
-            "pages": [
-              "Agent-platform/models/single-stream-processing",
-              "Agent-platform/models/multi-stream-processing"
-            ]
-          }
-        ]
-      },
-
-      {
-        "tab": "Sanas Speech Platform (coming soon)",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "Quickstart",
-              "Authentication",
-              "Reference"
-            ]
-          }
-        ]
-      },
-
-      {
-        "tab": "API reference (coming soon)",
-        "groups": []
-      }
-    ],
-
     "global": {
       "anchors": [
         {
           "anchor": "Support",
-          "href": "https://support.sanas.ai",
-          "icon": "book-open-cover"
+          "icon": "book-open-cover",
+          "href": "https://support.sanas.ai"
         },
         {
           "anchor": "Blog",
-          "href": "https://www.sanas.ai/blog",
-          "icon": "book-open-cover"
+          "icon": "book-open-cover",
+          "href": "https://www.sanas.ai/blog"
         }
       ]
-    }
+    },
+    "tabs": [
+      {
+        "tab": "Overview",
+        "pages": [
+          "overview/untitled-page",
+          {
+            "group": "Solutions",
+            "pages": [
+              "overview/solutions/ai-voice-agents",
+              "overview/solutions/untitled-page"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "SDK",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "sdk/get-started/overview",
+              "sdk/get-started/authentication",
+              "sdk/get-started/quickstart-guide"
+            ]
+          },
+          {
+            "group": "AI Models",
+            "pages": [
+              "sdk/ai-models/ai-voice-agent",
+              "sdk/ai-models/noise-cancellation"
+            ]
+          }
+        ]
+      }
+    ]
   },
 
   "logo": {

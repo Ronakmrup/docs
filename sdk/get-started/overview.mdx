@@ -1,0 +1,357 @@
+---
+title: "Overview"
+description: "Introduction to Sanas SDK and how it works"
+icon: "book"
+---
+
+## What is Sanas SDK?
+
+Sanas SDK is a cloud-hosted software development kit that provides real-time AI-powered speech processing for voice applications. It enables developers to enhance audio quality and improve ASR performance in noisy, real-world environments.
+
+### Key Capabilities
+
+<CardGroup cols={2}>
+  <Card title="AI Voice Agent" icon="robot">
+    Improve ASR accuracy by 5-30% in noisy conditions
+
+    **Use for:** Voice assistants, IVR systems, ASR pipelines
+  </Card>
+  <Card title="Noise Cancellation" icon="volume-xmark">
+    Remove background noise from human conversations
+
+    **Use for:** Calls, conferencing, gaming, media
+  </Card>
+</CardGroup>
+
+---
+
+## How It Works
+
+Sanas SDK operates as a **cloud-hosted service** that processes audio in real-time:
+
+┌─────────────┐ ┌──────────────┐ ┌─────────────┐ │ Your App │ -\> │ Sanas Cloud │ -\> │ Your App │ │ (noisy │ │ (AI models) │ │ (clean │ │ audio in) │ │ │ │ audio out) │ └─────────────┘ └──────────────┘ └─────────────┘ ~40ms latency
+
+text
+
+### Architecture
+
+<Steps>
+  <Step title="Your application captures audio">
+    Microphone input or audio stream from your voice pipeline
+  </Step>
+  <Step title="Send to Sanas SDK">
+    Audio chunks sent to Sanas Cloud via SDK connector
+  </Step>
+  <Step title="AI processing">
+    Selected AI model processes audio in real-time (~40ms)
+  </Step>
+  <Step title="Receive clean audio">
+    Enhanced audio returned to your application
+  </Step>
+  <Step title="Use enhanced audio">
+    Send to ASR, encoder, or playback device
+  </Step>
+</Steps>
+
+---
+
+## Deployment Options
+
+<Tabs>
+  <Tab title="Sanas Cloud (Recommended)">
+    ### Cloud-Hosted Deployment
+
+    **What it is:**
+
+    - Sanas manages all infrastructure
+    - Hosted on enterprise-grade cloud infrastructure
+    - Automatic scaling and high availability
+
+    **Available Regions:**
+
+    - **South East Asia:** Mumbai (AWS ap-south-1)
+    - More regions coming soon
+
+    **Connection:**
+
+    - Connect via provided endpoint URL
+    - Secure authentication with Account ID + Secret
+    - Encrypted media transmission
+
+    **Best for:**
+
+    - Fast time to market
+    - Teams without infrastructure expertise
+    - Applications that can use public cloud
+    - Development and testing
+
+    **Pricing:** Usage-based (contact sales)
+
+    [Get started with Sanas Cloud →](/sdk/getting-started/quickstart)
+  </Tab>
+  <Tab title="Self-Hosted">
+    ### Self-Hosted Deployment
+
+    **What it is:**
+
+    - Run Sanas SDK on your own infrastructure
+    - Full control over data and deployment
+    - On-premise or private cloud
+
+    **Requirements:**
+
+    - Linux servers (Ubuntu 22.04 recommended)
+    - Network configuration
+    - Resource planning
+    - Monitoring and maintenance
+
+    **Best for:**
+
+    - Regulatory compliance (HIPAA, GDPR, etc.)
+    - Data residency requirements
+    - On-premise deployments
+    - Air-gapped environments
+
+    **Setup:** Self-hosted deployment requires consultation with our team.
+
+    [Contact support for self-hosting →](/support)
+  </Tab>
+</Tabs>
+
+---
+
+## System Requirements
+
+### Supported Platforms
+
+| Component            | Requirement                                           |
+| :------------------- | :---------------------------------------------------- |
+| **Operating System** | Ubuntu 22.04 x86-64 (other Linux distros coming soon) |
+| **Python Version**   | Python 3.10 or higher                                 |
+| **Network**          | Outbound HTTPS connectivity to Sanas Cloud            |
+| **Dependencies**     | Installed automatically via `install.sh`              |
+
+### Hardware Requirements
+
+**Minimum (Testing/Development):**
+
+- 2 CPU cores
+- 4 GB RAM
+- 10 GB disk space
+
+**Recommended (Production):**
+
+- 4+ CPU cores
+- 8+ GB RAM
+- 50 GB disk space
+- Based on expected concurrent streams
+
+<Note>
+  **Self-hosted deployments:** Requirements vary based on load. Contact our team for capacity planning.
+</Note>
+
+---
+
+## Typical Integration Architectures
+
+### Voice AI Agent Pipeline
+
+User speaks ↓ Microphone ↓ ┌─────────────────────┐ │ Your Application │ └─────────────────────┘ ↓ ┌─────────────────────┐ │ Sanas SDK │ │ (AI Voice Agent) │ └─────────────────────┘ ↓ ┌─────────────────────┐ │ ASR System │ │ (Deepgram, etc.) │ └─────────────────────┘ ↓ ┌─────────────────────┐ │ LLM Processing │ └─────────────────────┘ ↓ ┌─────────────────────┐ │ TTS / Response │ └─────────────────────┘ ↓ Speaker output
+
+text
+
+### Human-to-Human Call Pipeline
+
+Caller speaks ↓ Microphone ↓ ┌─────────────────────┐ │ Your Application │ └─────────────────────┘ ↓ ┌─────────────────────┐ │ Sanas SDK │ │ (Noise Cancellation)│ └─────────────────────┘ ↓ ┌─────────────────────┐ │ Audio Encoder │ │ (Opus, G.711, etc.) │ └─────────────────────┘ ↓ Network transmission ↓ Recipient receives clean audio
+
+text
+
+---
+
+## When to Use Which Model?
+
+<Tabs>
+  <Tab title="AI Voice Agent">
+    **Use AI Voice Agent when:**
+
+    - Building voice assistants or chatbots
+    - Running ASR in noisy environments
+    - Need to improve Word Error Rate
+    - Processing single-speaker input for ASR
+
+    **Model Code:** `ASR_NC3.0_VAD0.6`
+
+    **Key Benefit:** 5-30% WER improvement
+
+    [Learn more →](/sdk/ai-models/ai-voice-agent)
+  </Tab>
+  <Tab title="Noise Cancellation">
+    **Use Noise Cancellation when:**
+
+    - Processing human-to-human calls
+    - Need clean audio for human listening
+    - Conference calls or meetings
+    - Gaming voice chat
+
+    **Model Variants:**
+
+    - **ST:** Multi-speaker scenarios
+    - **VI-G:** General single-speaker
+    - **VI-GT:** Phone/VoIP
+    - **VI-N:** Headset/near-field
+
+    [Learn more →](/sdk/ai-models/noise-cancellation)
+  </Tab>
+</Tabs>
+
+### Quick Decision Tree
+
+Do you need ASR accuracy improvement? ├─ Yes → Use AI Voice Agent │ └─ Best for: Voice agents, IVR, transcription │ └─ No, need clean audio for humans → Use Noise Cancellation ├─ Multiple speakers? → Use ST (Standard) ├─ Phone/VoIP (8kHz)? → Use VI-GT (Telephony) ├─ Headset/close mic? → Use VI-N (Nearfield) └─ General use? → Use VI-G (General)
+
+text
+
+---
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Real-Time Processing" icon="bolt">
+    **~40ms latency**
+
+    Suitable for live conversations with no noticeable delay
+  </Card>
+  <Card title="High Concurrency" icon="layer-group">
+    **Unlimited streams**
+
+    Process multiple audio streams simultaneously
+  </Card>
+  <Card title="Streaming & Offline" icon="circle-play">
+    **Flexible modes**
+
+    Real-time streaming or batch file processing
+  </Card>
+  <Card title="ASR-Agnostic" icon="puzzle-piece">
+    **Works with any ASR**
+
+    Deepgram, Google, Whisper, Azure, AWS, etc.
+  </Card>
+  <Card title="Easy Integration" icon="plug">
+    **Simple API**
+
+    Initialize, create processor, process audio
+  </Card>
+  <Card title="Secure" icon="shield-check">
+    **Enterprise security**
+
+    Encrypted transmission, secure authentication
+  </Card>
+</CardGroup>
+
+---
+
+## SDK Workflow
+
+Here's the typical workflow for using Sanas SDK:
+
+<Steps>
+  <Step title="Get credentials">
+    Request SDK access and receive:
+
+    - SDK Connector (libraries)
+    - Endpoint URL
+    - Account ID
+    - Account Secret
+
+    [Request access →](/sdk/getting-started/authentication)
+  </Step>
+  <Step title="Install SDK">
+    Extract and run installation script:
+
+    ```bash
+    tar -zxvf sanas_remote_sdk_*.tar.gz
+    cd sanas_remote_sdk_*
+    ./install.sh
+    ```
+  </Step>
+  <Step title="Initialize SDK">
+    Configure connection to Sanas Cloud:
+
+    ```python
+    sdk = sanas_remote_sdk.CreateRemoteSDK()
+    init_params.remoteEndpoint = "your_endpoint"
+    init_params.accountId = "your_account_id"
+    init_params.accountSecret = "your_account_secret"
+    sdk.Initialize(init_params)
+    ```
+  </Step>
+  <Step title="Create audio processor">
+    Select AI model and create processor:
+
+    ```python
+    audio_params.modelName = "ASR_NC3.0_VAD0.6"
+    audio_params.sampleRate = 16000
+    processor, result = sdk.CreateAudioProcessor(audio_params, callback)
+    ```
+  </Step>
+  <Step title="Process audio">
+    Send audio chunks and receive enhanced output:
+
+    ```python
+    clean_audio = processor.ProcessSamples(noisy_audio)
+    ```
+  </Step>
+</Steps>
+
+---
+
+## What You'll Learn
+
+This documentation will guide you through:
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" href="/sdk/getting-started/quickstart">
+    Installation, authentication, and your first example
+  </Card>
+  <Card title="AI Models" href="/sdk/ai-models">
+    Detailed information on each model and when to use them
+  </Card>
+  <Card title="Tutorials" href="/sdk/tutorials">
+    Complete working examples and integration patterns
+  </Card>
+  <Card title="Deployment" href="/sdk/deployment">
+    Production deployment options and best practices
+  </Card>
+</CardGroup>
+
+---
+
+## Next Steps
+
+<Note>
+  **Ready to start?** Follow the quickstart guide to install the SDK and process your first audio stream in under 10 minutes.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Request SDK Access" icon="key" href="/sdk/getting-started/authentication">
+    Get your credentials to start building
+  </Card>
+  <Card title="Quickstart Guide" icon="bolt" href="/sdk/getting-started/quickstart">
+    Install SDK and run your first example
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+<CardGroup cols={3}>
+  <Card title="Contact Support" icon="life-ring" href="/support">
+    Get assistance from our team
+  </Card>
+  <Card title="View Examples" icon="code" href="/sdk/tutorials">
+    Browse complete code examples
+  </Card>
+  <Card title="API Reference" icon="book" href="/sdk/api-reference">
+    Detailed API documentation
+  </Card>
+</CardGroup>

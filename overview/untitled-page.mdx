@@ -1,0 +1,204 @@
+---
+title: "Welcome to Sanas"
+description: "AI-powered speech processing for voice agents and real-time communication"
+icon: "pager"
+---
+
+## What is Sanas?
+
+Sanas provides AI models that enhance voice communication quality and improve speech recognition accuracy in real-world noisy environments.
+
+<CardGroup cols={2}>
+  <Card title="Quick Start" icon="bolt" href="/sdk/getting-started/quickstart">
+    **Get started in 5 minutes**
+
+    Install the SDK and process your first audio stream
+  </Card>
+  <Card title="Explore Solutions" icon="lightbulb" href="/solutions">
+    **See what you can build**
+
+    Browse use cases and audio samples
+  </Card>
+</CardGroup>
+
+---
+
+## What You Can Build
+
+<CardGroup cols={2}>
+  <Card title="AI Voice Agents" icon="robot" href="/solutions/ai-voice-agents">
+    Improve ASR accuracy by 5-30% in noisy environments
+
+    **Use cases:** Voice assistants, IVR systems, chatbots
+
+    → [Start building](/sdk/getting-started/quickstart?model=ai-voice-agent)
+  </Card>
+  <Card title="Crystal Clear Calls" icon="phone" href="/solutions/human-to-human">
+    Remove background noise from human conversations
+
+    **Use cases:** Contact centers, conferencing, gaming
+
+    → [Start building](/sdk/getting-started/quickstart?model=noise-cancellation)
+  </Card>
+</CardGroup>
+
+---
+
+## Choose Your Integration Path
+
+<Tabs>
+  <Tab title="SDK (Python)">
+    **Sanas SDK - Cloud-hosted Python SDK** ✅ Available Now
+
+    - Real-time streaming & offline processing
+    - Low latency (~40ms)
+    - Sanas Cloud or self-hosted options
+
+    **Best for:** Real-time applications, voice pipelines, contact centers
+
+    <CardGroup cols={2}>
+      <Card title="Get Started" href="/sdk/getting-started/quickstart">
+        Install and run your first example
+      </Card>
+      <Card title="View Documentation" href="/sdk/getting-started/overview">
+        Complete SDK documentation
+      </Card>
+    </CardGroup>
+    **When to use SDK:**
+
+    - You need real-time streaming with 50ms latency
+    - You're building in Python
+    - You want full control over the audio processing pipeline
+    - You need offline processing mode
+  </Tab>
+  <Tab title="REST APIs">
+    **Sanas REST APIs** 🔜 Coming Soon
+
+    - HTTP API for any programming language
+    - Simple integration with JSON requests
+    - Stateless, scalable architecture
+
+    **Best for:** Web apps, microservices, multi-language projects
+
+    <Card title="Join Waitlist" icon="bell" href="https://share-na2.hsforms.com/1EScdGvwoQgqBiwZyic04dAczvqf">
+      Get notified when REST APIs launch
+    </Card>
+    **When to use REST APIs:**
+
+    - You're using JavaScript, Java, Go, or other languages
+    - You prefer stateless HTTP requests
+    - You don't need real-time streaming
+    - You want simple web integration
+  </Tab>
+  <Tab title="Client SDK">
+    **Sanas Client SDK** 💡 In Development
+
+    - On-device processing for mobile and edge
+    - Works completely offline
+    - iOS, Android, Web (WASM), Desktop
+
+    **Best for:** Mobile apps, offline scenarios, privacy-sensitive use cases
+
+    <Card title="Express Interest" icon="message" href="/support">
+      Contact us about Client SDK
+    </Card>
+    **When to use Client SDK:**
+
+    - You need offline/on-device processing
+    - You're building mobile applications
+    - You have strict privacy requirements
+    - You want to minimize latency to 20ms
+  </Tab>
+</Tabs>
+
+---
+
+## SDK vs REST API Comparison
+
+| Feature                    | SDK (Python)                 | REST APIs (Coming Soon)               |
+| :------------------------- | :--------------------------- | :------------------------------------ |
+| **Availability**           | ✅ Available Now              | 🔜 Coming Soon                        |
+| **Languages**              | Python 3.10+                 | Any (JavaScript, Java, Go, PHP, etc.) |
+| **Real-time Streaming**    | ✅ Yes (~40ms latency)        | ⚠️ Limited (higher latency)           |
+| **Offline Processing**     | ✅ Yes                        | ❌ No                                  |
+| **Deployment**             | Sanas Cloud or Self-hosted   | Sanas Cloud only                      |
+| **Best For**               | Voice agents, real-time apps | Web apps, microservices               |
+| **Integration Complexity** | Medium (native dependencies) | Low (HTTP requests)                   |
+| **Concurrent Streams**     | Unlimited (your infra)       | Rate limited                          |
+
+**👉 Not sure which to choose?** [Contact our team](/support) for guidance.
+
+---
+
+## Popular Use Cases
+
+<AccordionGroup>
+  <Accordion title="Improve Voice Assistant ASR Accuracy" icon="microphone">
+    **Challenge:** Your voice agent misunderstands users in noisy environments (cafes, streets, offices).
+
+    **Solution:** Use **AI Voice Agent** model to reduce Word Error Rate (WER) by 5-30%.
+
+    **Quick Start:**
+
+    ```python
+    # 30-second example
+    from sanas_sdk import create_sdk
+    
+    sdk = create_sdk(endpoint="...", account_id="...", secret="...")
+    processor = sdk.create_processor(model="ASR_NC3.0_VAD0.6")
+    
+    clean_audio = processor.process(noisy_audio)
+    # Pass to your ASR (Google, Deepgram, etc.)
+    ```
+
+    [Full Tutorial →](/sdk/tutorials/single-stream)
+  </Accordion>
+  <Accordion title="Remove Background Noise from Calls" icon="phone-volume">
+    **Challenge:** Contact center calls have background chatter, keyboard noise, and office sounds.
+
+    **Solution:** Use the**Noise Cancellation**  model to isolate the speaker's voice.
+
+    **Quick Start:**
+
+    ```python
+    from sanas_sdk import create_sdk
+    
+    sdk = create_sdk(endpoint="...", account_id="...", secret="...")
+    processor = sdk.create_processor(model="VI-G", confidence=1.0)
+    
+    clean_audio = processor.process(noisy_call_audio)
+    ```
+
+    [Full Tutorial →](/sdk/tutorials/single-stream)
+  </Accordion>
+  <Accordion title="Process Multiple Concurrent Calls" icon="phone-office">
+    **Challenge:** Handle 100+ concurrent calls in a contact center.
+
+    **Solution:** SDK supports unlimited concurrent streams with one instance.
+
+    [Multi-Stream Tutorial →](/sdk/tutorials/multi-stream)
+  </Accordion>
+  <Accordion title="Self-Host for Data Compliance" icon="server">
+    **Challenge:** Regulatory requirements prevent sending audio to external servers.
+
+    **Solution:** Self-hosted SDK deployment on your infrastructure.
+
+    [Deployment Options →](/sdk/deployment/self-hosted) | [Contact Support →](/support)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Support & Resources
+
+<CardGroup cols={3}>
+  <Card title="Contact Support" icon="life-ring" href="/support">
+    Get help from our team
+  </Card>
+  <Card title="View Changelog" icon="clock-rotate-left" href="/changelog">
+    Latest updates & fixes
+  </Card>
+  <Card title="Best Practices" icon="star" href="/resources/best-practices">
+    Optimization tips
+  </Card>
+</CardGroup>

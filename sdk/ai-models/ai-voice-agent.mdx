@@ -1,0 +1,302 @@
+---
+title: "AI Voice Agent"
+description: "ASR-optimized noise cancellation for voice AI pipelines"
+icon: "waveform-lines"
+---
+
+<Info>
+  **Model Code:** `ASR_NC3.0_VAD0.6`\
+  **Sample Rate:** 16 kHz\
+  **Latency:** ~40ms (streaming)\
+  **Use Case:** Voice agents, IVR systems, ASR pipelines
+</Info>
+
+## Introduction
+
+AI Voice Agent is a specialized noise cancellation model designed to improve Automatic Speech Recognition (ASR) accuracy in noisy environments. Unlike traditional noise cancellation optimized for human perception, this model preserves the acoustic and phonetic information that ASR systems depend on while removing conversational disruptions.
+
+### Key Differentiators
+
+| Feature                   | AI Voice Agent               | Traditional Noise Cancellation |
+| :------------------------ | :--------------------------- | :----------------------------- |
+| **Optimization Goal**     | ASR accuracy (WER reduction) | Human listening quality        |
+| **Acoustic Preservation** | Preserves phonetic features  | May strip ASR-critical info    |
+| **ASR Compatibility**     | All major ASR systems        | May degrade ASR performance    |
+| **WER Improvement**       | 5-30% in noisy conditions    | Often increases WER            |
+| **Clean Audio Impact**    | No degradation               | No degradation                 |
+
+---
+
+## Key Benefits
+
+<CardGroup cols={2}>
+  <Card title="Improved ASR Accuracy" icon="chart-line">
+    \
+    **5-30% average WER** improvement \
+    across multiple ASR systems on noisy data with no degradation on clean audio.
+  </Card>
+  <Card title="ASR-Agnostic Design" icon="puzzle-piece">
+    \
+    Works seamlessly with any ASR pipeline—**open-source or commercial**—without requiring retraining or modification.
+  </Card>
+  <Card title="Enhanced Turn-Taking" icon="comments">
+    \
+    Reduces false triggers from ambient sounds (background chatter, environmental noise) that cause agents to interrupt.
+  </Card>
+  <Card title="Real-World Robustness" icon="shield-check">
+    \
+    Trained on diverse acoustic environments to handle production variability from call centers to mobile devices.
+  </Card>
+</CardGroup>
+
+---
+
+## Use Cases
+
+| Use Case                    | Benefits                                                                              | Ideal For                                             |
+| :-------------------------- | :------------------------------------------------------------------------------------ | :---------------------------------------------------- |
+| **Voice Agents**            | Improves speech recognition in noisy environments; preserves the primary speaker only | Conversational AI, virtual assistants, chatbots       |
+| **IVR Systems**             | Enhances recognition accuracy for automated phone systems                             | Interactive voice response, phone menus, call routing |
+| **Customer Service Bots**   | Reduces transcription errors in call center environments                              | Support automation, call analysis, quality monitoring |
+| **Phone Assistants**        | Optimizes speech-to-text in telephony conditions                                      | Mobile assistants, hands-free applications            |
+| **Real-Time Transcription** | Clean audio input for live transcription services                                     | Meeting transcription, live captioning, note-taking   |
+| **ASR Preprocessing**       | Purpose-built enhancement for downstream ASR systems                                  | Any speech-to-text pipeline in noisy conditions       |
+
+---
+
+## Model Configuration
+
+To use the AI Voice Agent model, specify it when creating your audio processor:
+
+```python
+audio_params.modelName = "ASR_NC3.0_VAD0.6"
+audio_params.sampleRate = 16000  # Up to 16kHz supported
+```
+
+### Sample Rate Requirements
+
+- **Maximum supported**: 16 kHz
+- **Recommended**: 16 kHz for best quality
+- **Telephony**: 8 kHz is supported for phone applications
+
+**Note**: Audio with sample rates \> 16 kHz will be downsampled
+
+<Note>
+  For complete setup instructions, see the [Quickstart Guide](/sdk/getting-started/quickstart).
+</Note>
+
+---
+
+## Performance Benchmarks
+
+### Real-World Test Results
+
+#### Test Environment:
+
+**Background**: Restaurant with cutlery sounds and conversation
+
+**Microphone**: Speakerphone at 10cm distance
+
+**ASR System**: Deepgram Nova3 Streaming
+
+<Tabs>
+  <Tab title="Transcription Comparison">
+    **Oracle Transcript:**
+
+    ```
+    even in small moments there was joy to be found a leaf fluttered to be ground turning in the breeze before landing gently on the soft earth a distant laugh echoed light and unplanned reminding that life could surprise with kindness everything seemed connected the way the light touched the ground the way wind moved the way the heart could feel warmth even without reason
+    ```
+
+    **Source Audio (No Processing) - 33% WER:**
+
+    ```
+    even in small moments there was joy to be found [famous ali] 
+    fluttered to be ground [slapping and] turning in the breeze 
+    before landing gently on the soft earth [instagram i have bought 
+    i i went there so] a distant laughed echoed light and unplanned 
+    reminding that life could surprise with kindness everything seemed 
+    connected the way the [lights] touched the ground [oh] the way 
+    wind [move] the way could feel [warm] even without reason
+    ```
+
+    **With Sanas AI Voice Agent - 0.2% WER:**
+
+    ```
+    even in small moments there was joy to be found [ali] fluttered 
+    to be ground turning in the breeze before landing gently on the 
+    soft earth a distant laughter echoed light and unplanned reminding 
+    that life could surprise with kindness everything seemed connected 
+    the way the light touched the ground the way wind moved the way 
+    the heart could feel warmth even without reason
+    ```
+
+    **Improvement:** 33% → 0.2% WER = **99.4% error reduction**
+  </Tab>
+  <Tab title="Audio Samples">
+    **Source Audio (Noisy):**
+
+    _[Download source audio →]_
+
+    **Enhanced Audio (Sanas AI Voice Agent):**
+
+    _[Download enhanced audio →]_
+  </Tab>
+  <Tab title="WER by Noise Type">
+    | Noise Type         | Source WER | With Sanas | Improvement |
+    | :----------------- | :--------- | :--------- | :---------- |
+    | Background chatter | 28%        | 1.2%       | 95.7% ↓     |
+    | Office environment | 22%        | 0.8%       | 96.4% ↓     |
+    | Street traffic     | 35%        | 2.1%       | 94.0% ↓     |
+    | Café/restaurant    | 33%        | 0.2%       | 99.4% ↓     |
+    | Home (TV/kids)     | 25%        | 1.5%       | 94.0% ↓     |
+    | Clean audio        | 0.5%       | 0.5%       | No change   |
+  </Tab>
+</Tabs>
+
+## Latency & Performance
+
+| Metric            | Value      | Description                                       |
+| :---------------- | :--------- | :------------------------------------------------ |
+| Streaming Latency | ~40ms      | Per-chunk processing time                         |
+| Throughput        | Real-time+ | Can process faster than real-time in offline mode |
+| Concurrency       | Unlimited  | Limited only by your infrastructure               |
+
+### Real-Time Latency Budget
+
+```
+User speaks → Mic capture (5-10ms)
+           → Network (10-20ms)
+           → Sanas SDK (~40ms)
+           → ASR (~100-200ms)
+           → LLM processing (200-500ms)
+           → TTS (~100-200ms)
+           → Network (10-20ms)
+           → Speaker output (5-10ms)
+Total: 470-1000ms end-to-end
+```
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Input Audio Quality" icon="microphone">
+    **Do:**
+
+    - Use 16 kHz sample rate when possible
+    - Capture raw microphone input
+    - Maintain consistent gain levels
+
+    **Don't:**
+
+    - Apply noise reduction before Sanas
+    - Use heavily compressed audio
+    - Mix sample rates mid-stream
+  </Card>
+  <Card title="ASR Integration" icon="plug">
+    **Do:**
+
+    - Send Sanas output directly to ASR
+    - Match ASR expected sample rate
+    - Test with clean audio first
+
+    **Don't:**
+
+    - Apply additional processing
+    - Convert formats multiple times
+    - Cache/buffer excessively
+  </Card>
+  <Card title="Error Handling" icon="shield">
+    **Do:**
+
+    - Monitor processor state changes
+    - Implement reconnection logic
+    - Log processing metrics
+
+    **Don't:**
+
+    - Ignore state callbacks
+    - Assume always-on connectivity
+    - Skip error code checks
+  </Card>
+  <Card title="Production Deployment" icon="server">
+    **Do:**
+
+    - Load test with expected concurrency
+    - Monitor latency percentiles
+    - Plan for scaling
+
+    **Don't:**
+
+    - Deploy without testing peak load
+    - Ignore p95/p99 latency
+    - Assume linear scaling
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="High WER despite using AI Voice Agent" icon="triangle-exclamation">
+    **Possible causes:**
+
+    1. Sample rate mismatch between Sanas output and ASR input
+    2. Audio format conversion errors
+    3. ASR model not suitable for domain
+
+    **Debug steps:**
+
+    - Save and listen to Sanas output to confirm noise is removed
+    - Test ASR directly on clean audio to verify ASR configuration
+    - Check sample rate consistency throughout pipeline
+  </Accordion>
+  <Accordion title="Audio artifacts or distortion" icon="triangle-exclamation">
+    **Symptoms:** Robotic voice, clipping, echo
+
+    **Common causes:**
+
+    1. Input audio is already heavily processed
+    2. Sample rate conversion issues
+    3. Buffer size mismatches
+
+    **Solutions:**
+
+    - Use raw microphone input (before any processing)
+    - Ensure consistent sample rate (16kHz recommended)
+    - Use correct chunk sizes (320 samples for 16kHz)
+  </Accordion>
+  <Accordion title="Processor creation fails with AI Voice Agent" icon="triangle-exclamation">
+    **Common issues:**
+
+    - Model name typo (must be exactly `ASR_NC3.0_VAD0.6`)
+    - Sample rate \> 16000 (not supported by this model)
+    - Network connectivity to Sanas Cloud
+
+    **Verify:**
+
+    ```python
+    print(f"Model: {audio_params.modelName}")
+    print(f"Sample rate: {audio_params.sampleRate}")
+    # Should show: ASR_NC3.0_VAD0.6 and ≤16000
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" href="/sdk/getting-started/quickstart">
+    Complete setup and initialization instructions
+  </Card>
+  <Card title="Single Stream Tutorial" href="/sdk/tutorials/single-stream">
+    Process WAV files end-to-end
+  </Card>
+  <Card title="Multi-Stream Tutorial" href="/sdk/tutorials/multi-stream">
+    Handle multiple concurrent voice streams
+  </Card>
+  <Card title="API Reference" href="/sdk/api-reference">
+    Complete SDK API documentation
+  </Card>
+</CardGroup>
+
+<Note>
+  **Need help?** Contact our support team at [support@sanas.ai](mailto:support@sanas.ai) or [raise a ticket](/support).
+</Note>
