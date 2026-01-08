@@ -1,0 +1,208 @@
+---
+title: "Single Stream Processing"
+description: "Process a single audio stream using provided sample files"
+icon: "wave-pulse"
+---
+
+## Overview
+
+This tutorial demonstrates how to process a single audio stream in real-time using Sanas SDK with the provided sample audio files. You'll learn how to:
+
+- Set up a streaming audio processor
+- Process audio chunks with proper timing
+- Maintain state for continuous streaming
+- Handle processor lifecycle
+
+<Info>
+  **What you'll build:** A real-time audio processing pipeline that reads from a WAV file (simulating a live stream), enhances it with Sanas SDK, and outputs clean audio.
+</Info>
+
+---
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- ✅ Sanas SDK installed ([Installation guide](/sdk/get-started/quickstart-guide))
+- ✅ SDK credentials (Account ID, Secret, Endpoint)
+- ✅ Python 3.10 or higher
+- ✅ Sample audio files from SDK package
+
+<Warning>
+  **Important:** The SDK connector package includes sample WAV files for testing. Ensure these audio files remain in the **root folder** of your SDK installation when running the examples.
+</Warning>
+
+---
+
+## Understanding Real-Time Streaming Simulation
+
+### How Streaming Works
+
+Even though we're reading from a file, we simulate real-time streaming by:
+
+WAV file → Read 20ms audio chunks → Process with timing → Enhanced chunks → Output file (continuous) (~40ms latency) (continuous)
+
+**Key concepts:**
+
+| Concept                | Description                                              |
+| :--------------------- | :------------------------------------------------------- |
+| **Chunk size**         | 20ms of audio data (standard for speech processing)      |
+| **Chunk rate**         | New chunk every 20ms = 50 chunks per second              |
+| **Processing latency** | ~40ms per chunk                                          |
+| **State management**   | The processor maintains an internal state between chunks |
+| **Timing simulation**  | Sleep between chunks to simulate real-time               |
+
+### Calculating Chunk Size
+
+```python
+sample_rate = 16000  # 16 kHz
+chunk_duration_ms = 20
+chunk_size = int(sample_rate * chunk_duration_ms / 1000)
+# Result: 320 samples per chunk at 16kHz
+```
+
+| Sample Rate | Chunk Duration | Chunk Size (samples) |
+| :---------- | :------------- | :------------------- |
+| 8 kHz       | 20ms           | 160                  |
+| 16 kHz      | 20ms           | 320                  |
+| 24 kHz      | 20ms           | 480                  |
+
+## Complete Example: Processing Sample Audio File
+
+This example reads a WAV file and processes it as if streaming in real-time:
+
+```python
+import sanas_remote_sdk
+from wav_utils import read_wav, save_wav
+import threading
+import struct
+import time
+
+# Helper function for precise timing
+def sleep_until(target_time):
+    """Sleep until target time with precision"""
+    sleep_time = target_time - time.time()
+    if sleep_time > 0.001:
+        time.sleep(sleep_time - 0.001)
+    while time.time() < target_time:
+        pass
+
+# Configuration
+INPUT_FILE = "input.wav"
+OUTPUT_FILE = "output.wav"
+ENDPOINT = "your_server_ip"
+ACCOUNT_ID = "your_account_id"
+ACCOUNT_SECRET = "your_account_secret"
+MODEL = "desired_sanas_model"
+
+# Read the sample rate from the WAV header
+with open(INPUT_FILE, 'rb') as f:
+    header = struct.unpack('<4sI4s4sIHHIIHH4sI', f.read(44))
+    sample_rate = header[7]
+
+audio_data = read_wav(INPUT_FILE)
+
+# Initialize SDK
+sdk = sanas_remote_sdk.CreateRemoteSDK()
+init_params = sanas_remote_sdk.InitParams()
+init_params.remoteEndpoint = ENDPOINT
+init_params.accountId = ACCOUNT_ID
+init_params.accountSecret = ACCOUNT_SECRET
+init_params.secureMedia = False
+sdk.Initialize(init_params)
+
+# State tracking
+ready_event = threading.Event()
+
+def state_callback(state, reason):
+    if state == sanas_remote_sdk.ProcessorState.READY:
+        ready_event.set()
+
+# Create audio processor
+audio_params = sanas_remote_sdk.AudioParams()
+audio_params.modelName = MODEL
+audio_params.sampleRate = sample_rate
+
+processor, result = sdk.CreateAudioProcessor(audio_params, state_callback)
+
+# Process audio with precise 20ms timing
+if result == sanas_remote_sdk.CreateProcessorResult.SUCCESS:
+    if ready_event.wait(timeout=10):
+        chunk_size = int(sample_rate * 0.02)  # 20ms chunks
+        output_audio = []
+        
+        first_chunk_time = time.time()
+        
+        for chunk_index, i in enumerate(range(0, len(audio_data), chunk_size)):
+            # Calculate ideal start time for this chunk
+            ideal_time = first_chunk_time + (chunk_index * 0.02)
+            sleep_until(ideal_time)
+            
+            chunk = audio_data[i:i + chunk_size]
+            if len(chunk) < chunk_size:
+                chunk.extend([0.0] * (chunk_size - len(chunk)))
+            
+            output_chunk = processor.ProcessSamples(chunk)
+            output_audio.extend(output_chunk)
+        
+        save_wav(OUTPUT_FILE, output_audio, sample_rate)
+    
+    sdk.DestroyAudioProcessor(processor)
+
+sdk.Shutdown()
+```
+
+## Key concepts
+
+| Concept        | Description                                                                         |
+| :------------- | :---------------------------------------------------------------------------------- |
+| Dynamic chunks | Chunk size calculated as `int(sample_rate * 0.02)` for consistent 20ms duration     |
+| Precise timing | `sleep_until()` uses absolute time tracking to prevent drift from processing delays |
+| Zero-padding   | Last chunk padded with zeros to maintain consistent size                            |
+
+---
+
+## WAV Utility Functions
+
+The example uses helper functions for WAV file handling. Here's what they do:
+
+### read_wav(filename)
+
+Reads a WAV file and returns audio samples as a list of floats.
+
+```python
+audio_data = read_wav("input.wav")
+```
+
+### save_wav(filename, samples, sample_rate)
+
+Saves audio samples to a WAV file with the specified sample rate.
+
+```python
+save_wav("output.wav", processed_audio, sample_rate)
+```
+
+<Info>
+  **Note**: The WAV utilities support both 16-bit int and 32-bit float PCM input formats. Output is saved as 16-bit int PCM mono. The example automatically detects and preserves the input file's sample rate.
+</Info>
+
+---
+
+## Support
+
+<Columns cols={2}>
+  <Card title="New Card">
+    
+  </Card>
+  <Card title="New Card">
+    
+  </Card>
+</Columns>
+
+<br />
+
+<Info>
+  **Need Help?**
+
+  Reach out to our [suppor team](mailto:support@sanas.ai) for any assistance with Speech AI SDK.
+</Info>

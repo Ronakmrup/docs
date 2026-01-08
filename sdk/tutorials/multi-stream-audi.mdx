@@ -1,0 +1,116 @@
+---
+title: "Multi-Stream Processing"
+description: "Handle multiple concurrent audio streams using sample files"
+icon: "layer-group"
+---
+
+## Overview
+
+This tutorial demonstrates how to process multiple concurrent audio streams using Sanas SDK with the provided sample files. You'll learn how to:
+
+- Handle multiple simultaneous audio streams
+- Share a single SDK instance across streams
+- Manage per-stream processors and state
+- Implement thread-safe concurrent processing
+- Monitor and debug multi-stream scenarios
+
+<Info>
+  **Use cases:** Contact centers, conference platforms, multi-user applications, gaming voice chat servers
+</Info>
+
+---
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- ✅ Understanding of threading in Python
+- ✅ Sanas SDK installed and configured. See [Quickstart guide](/sdk/get-started/quickstart-guide)
+- ✅ Multiple sample WAV files from the SDK package
+
+<Warning>
+  **Important:** Ensure all sample audio files from the SDK package are in the **root folder** when running this example.
+</Warning>
+
+---
+
+## Complete Example: Processing Multiple Calls
+
+This example processes multiple WAV files concurrently, simulating a contact center:
+
+```python
+import sanas_remote_sdk
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
+
+def sleep_until(target_time):
+    """Sleep until target time with precision"""
+    sleep_time = target_time - time.time()
+    if sleep_time > 0.001:
+        time.sleep(sleep_time - 0.001)
+    while time.time() < target_time:
+        pass
+
+def process_call(call_id, sdk):
+    """Process audio in a separate thread"""
+    call_ready = threading.Event()
+
+    def state_callback(state, reason):
+        print(f"Call {call_id} state: {state}")
+        if state == sanas_remote_sdk.ProcessorState.READY:
+            call_ready.set()
+
+    # Create processor for this stream
+    audio_params = sanas_remote_sdk.AudioParams()
+    audio_params.modelName = "desired_sanas_model"
+    audio_params.sampleRate = 8000
+
+    processor, result = sdk.CreateAudioProcessor(audio_params, state_callback)
+
+    if result == sanas_remote_sdk.CreateProcessorResult.SUCCESS:
+        if call_ready.wait(timeout=10):
+            print(f"Call {call_id} processing audio...")
+            
+            first_chunk_time = time.time()
+            
+            # Process 1500 chunks (30 seconds of audio at 8kHz)
+            for i in range(1500):
+                ideal_time = first_chunk_time + (i * 0.02)
+                sleep_until(ideal_time)
+                
+                input_samples = [0.1] * 160  # Simulated audio data (e.g., from network stream)
+                output_samples = processor.ProcessSamples(input_samples)
+
+        sdk.DestroyAudioProcessor(processor)
+
+# Initialize SDK once - shared across all streams
+sdk = sanas_remote_sdk.CreateRemoteSDK()
+init_params = sanas_remote_sdk.InitParams()
+init_params.remoteEndpoint = "your_server_ip"
+init_params.accountId = "your_account_id"
+init_params.accountSecret = "your_account_secret"
+init_params.secureMedia = False
+sdk.Initialize(init_params)
+
+# Process 4 concurrent audio streams
+with ThreadPoolExecutor(max_workers=4) as executor:
+    futures = [executor.submit(process_call, i + 1, sdk) for i in range(4)]
+    for future in futures:
+        future.result()
+
+sdk.Shutdown()
+```
+
+### Key components:
+
+| Components      | Scope      | Purpose                               |
+| :-------------- | :--------- | :------------------------------------ |
+| SDK Instance    | Global     | Shared connection to the Sanas server |
+| Audio processor | Per-thread | Independent audio processing          |
+| Threading Event | Per-thread | State synchronization                 |
+| Thread Pool     | Global     | Manages concurrent execution          |
+
+## Next steps
+
+<CardGroup cols={2}> <Card title="Production Deployment" href="/sdk/deployment"> Deploy to production with best practices </Card> <Card title="API Reference" href="/sdk/api-reference"> Complete SDK API documentation </Card> <Card title="AI Models" href="/sdk/ai-models"> Learn about model selection and tuning </Card> <Card title="Best Practices" href="/sdk/best-practices"> Production-ready patterns and optimization </Card> </CardGroup>

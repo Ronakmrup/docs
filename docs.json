@@ -56,6 +56,13 @@
               "sdk/ai-models/ai-voice-agent",
               "sdk/ai-models/noise-cancellation"
             ]
+          },
+          {
+            "group": "Tutorials",
+            "pages": [
+              "sdk/tutorials/single-stream-audio",
+              "sdk/tutorials/multi-stream-audi"
+            ]
           }
         ]
       }
