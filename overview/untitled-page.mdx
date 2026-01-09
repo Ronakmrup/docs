@@ -26,7 +26,7 @@ Sanas provides speech solutions powered by our AI models that enhance voice comm
 ## What You Can Build
 
 <CardGroup cols={2}>
-  <Card title="AI Voice Agents" icon="robot" href="/solutions/ai-voice-agents">
+  <Card title="Improved Audio Pipeline for AI Voice Agents" icon="robot" href="/solutions/ai-voice-agents">
     Improve ASR accuracy by 5-30% in noisy environments
 
     **Use cases:** Voice assistants, IVR systems, chatbots
@@ -38,7 +38,7 @@ Sanas provides speech solutions powered by our AI models that enhance voice comm
 
     **Use cases:** Contact centers, conferencing, gaming
 
-    → [Start building](/sdk/getting-started/quickstart?model=noise-cancellation)
+    → [Start building](/overview/solutions/untitled-page)
   </Card>
 </CardGroup>
 
@@ -46,12 +46,14 @@ Sanas provides speech solutions powered by our AI models that enhance voice comm
 
 ## Choose Your Integration Path
 
+You can start building with Sanas through the following integration paths:
+
 <Tabs>
   <Tab title="SDK (Python)">
-    **Sanas SDK - Cloud-hosted Python SDK** ✅ Available Now
+    **Sanas SDK - Cloud-hosted Python SDK**
 
-    - Real-time streaming & offline processing
-    - Low latency (~40ms)
+    - Real-time streaming
+    - Low latency
     - Sanas Cloud or self-hosted options
 
     **Best for:** Real-time applications, voice pipelines, contact centers
@@ -60,14 +62,13 @@ Sanas provides speech solutions powered by our AI models that enhance voice comm
       <Card title="Get Started" href="/sdk/getting-started/quickstart">
         Install and run your first example
       </Card>
-      <Card title="View Documentation" href="/sdk/getting-started/overview">
+      <Card title="View Documentation" href="/sdk/get-started/overview">
         Complete SDK documentation
       </Card>
     </CardGroup>
     **When to use SDK:**
 
-    - You need real-time streaming with 50ms latency
-    - You're building in Python
+    - You need real-time streaming with low latency
     - You want full control over the audio processing pipeline
     - You need offline processing mode
   </Tab>
@@ -113,30 +114,15 @@ Sanas provides speech solutions powered by our AI models that enhance voice comm
 
 ---
 
-## SDK vs REST API Comparison
-
-| Feature                    | SDK (Python)                 | REST APIs (Coming Soon)               |
-| :------------------------- | :--------------------------- | :------------------------------------ |
-| **Availability**           | ✅ Available Now              | 🔜 Coming Soon                        |
-| **Languages**              | Python 3.10+                 | Any (JavaScript, Java, Go, PHP, etc.) |
-| **Real-time Streaming**    | ✅ Yes (~40ms latency)        | ⚠️ Limited (higher latency)           |
-| **Offline Processing**     | ✅ Yes                        | ❌ No                                  |
-| **Deployment**             | Sanas Cloud or Self-hosted   | Sanas Cloud only                      |
-| **Best For**               | Voice agents, real-time apps | Web apps, microservices               |
-| **Integration Complexity** | Medium (native dependencies) | Low (HTTP requests)                   |
-| **Concurrent Streams**     | Unlimited (your infra)       | Rate limited                          |
-
-**👉 Not sure which to choose?** [Contact our team](/support) for guidance.
-
----
-
 ## Popular Use Cases
 
+Here are some popular use cases for our speech solutions:
+
 <AccordionGroup>
-  <Accordion title="Improve Voice Assistant ASR Accuracy" icon="microphone">
+  <Accordion title="Improve Voice Agetns ASR Accuracy" icon="microphone">
     **Challenge:** Your voice agent misunderstands users in noisy environments (cafes, streets, offices).
 
-    **Solution:** Use **AI Voice Agent** model to reduce Word Error Rate (WER) by 5-30%.
+    **Solution:** Use our **AI Voice Agent** model to reduce Word Error Rate (WER) by 5-30%.
 
     **Quick Start:**
 
@@ -151,12 +137,12 @@ Sanas provides speech solutions powered by our AI models that enhance voice comm
     # Pass to your ASR (Google, Deepgram, etc.)
     ```
 
-    [Full Tutorial →](/sdk/tutorials/single-stream)
+    [Full Tutorial →](/sdk/tutorials/single-stream-audio)
   </Accordion>
   <Accordion title="Remove Background Noise from Calls" icon="phone-volume">
-    **Challenge:** Contact center calls have background chatter, keyboard noise, and office sounds.
+    **Challenge:** Contact center calls are often accompanied by background chatter, keyboard noise, and office sounds.
 
-    **Solution:** Use the**Noise Cancellation**  model to isolate the speaker's voice.
+    **Solution:** Use the**Noise Cancellation**  model to isolate the speaker's voice, delivering a crystal-clear calling experience. 
 
     **Quick Start:**
 
@@ -174,16 +160,16 @@ Sanas provides speech solutions powered by our AI models that enhance voice comm
   <Accordion title="Process Multiple Concurrent Calls" icon="phone-office">
     **Challenge:** Handle 100+ concurrent calls in a contact center.
 
-    **Solution:** SDK supports unlimited concurrent streams with one instance.
+    **Solution:** Sanas SDK supports  concurrent streams with consistent, robust performance. 
 
     [Multi-Stream Tutorial →](/sdk/tutorials/multi-stream)
   </Accordion>
   <Accordion title="Self-Host for Data Compliance" icon="server">
     **Challenge:** Regulatory requirements prevent sending audio to external servers.
 
-    **Solution:** Self-hosted SDK deployment on your infrastructure.
+    **Solution:** Self-hosted Sanas SDK deployment on your infrastructure, giving you complete control and meeting compliance needs. 
 
-    [Deployment Options →](/sdk/deployment/self-hosted) | [Contact Support →](/support)
+    [Contact Support →](/support)
   </Accordion>
 </AccordionGroup>
 
@@ -192,13 +178,10 @@ Sanas provides speech solutions powered by our AI models that enhance voice comm
 ## Support & Resources
 
 <CardGroup cols={3}>
-  <Card title="Contact Support" icon="life-ring" href="/support">
+  <Card title="Contact Support" icon="life-ring" href="https://support.sanas.ai">
     Get help from our team
   </Card>
-  <Card title="View Changelog" icon="clock-rotate-left" href="/changelog">
+  <Card title="View Changelog" icon="clock-rotate-left" href="/overview/updates/changelog">
     Latest updates & fixes
-  </Card>
-  <Card title="Best Practices" icon="star" href="/resources/best-practices">
-    Optimization tips
   </Card>
 </CardGroup>
