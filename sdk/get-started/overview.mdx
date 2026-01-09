@@ -35,14 +35,14 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
 
 **Connection Protocol:**
 
-- **SIP (Session Initiation Protocol):** Establishes and manages the connection.
+- **SIP (Session Initiation Protocol):** Establishes and manages the connection
 - **RTC (Real-Time Communication):** Transmits audio streams.
 
 **Processing Mode:**
 
-- Real-time streaming only (offline processing not currently supported)
+- Real-time streaming
 - Audio processed in chunks as it arrives
-- Maintained session state for continuous streams
+- Maintained internal state for continuous streams.
 
 ### How Audio Flows
 
@@ -54,16 +54,16 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
     The SDK connector establishes a secure connection to the Sanas Cloud using SIP.
   </Step>
   <Step title="Stream audio via RTC">
-    Audio chunks are transmitted in real-time using the RTC protocol.
+    Audio chunks are transmitted in real time via the RTC protocol.
   </Step>
   <Step title="AI processing">
-    Selected AI model processes each chunk with ~40ms latency.
+    Selected AI model processes each 20ms audio chunk. 
   </Step>
   <Step title="Receive a clean audio stream">
     Enhanced audio is returned in real time via RTC.
   </Step>
   <Step title="Use enhanced audio">
-    Send to ASR, encoder, or playback device immediately
+    Enhanced audio gets sent to the next stage based on the use case.
   </Step>
 </Steps>
 
@@ -79,7 +79,7 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
 
     - Sanas manages all infrastructure
     - Hosted on enterprise-grade cloud infrastructure
-    - Automatic scaling and high availability
+    - Automatic scaling and high availability.
 
     **Available Regions:**
 
@@ -97,8 +97,7 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
 
     - Fast time to market
     - Real-time voice applications
-    - Applications that can use public cloud
-    - Development and testing.
+    - Scaled deployment. 
 
     **Pricing:** Usage-based (contact sales)
 
@@ -116,7 +115,7 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
     **Requirements:**
 
     - Linux servers (Ubuntu 22.04 recommended)
-    - SIP/RTC capable network configuration
+    - SIP/RTC-capable network configuration
     - Resource planning for real-time processing
     - Monitoring and maintenance.
 
@@ -152,7 +151,7 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
 
 - **SIP:** For connection establishment
 - **RTC:** For audio streaming
-- Specific port numbers provided with credentials
+- Specific port numbers are provided with credentials.
 
 <Note>
   **Firewall configuration:** Ensure your firewall allows outbound SIP and RTC traffic to Sanas Cloud endpoints.
@@ -160,7 +159,9 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
 
 ---
 
-## Choosing AI Model
+## Choosing an AI Model
+
+Choose your preferred AI model based on your use case:
 
 <Tabs>
   <Tab title="AI Voice Agent">
@@ -202,19 +203,19 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
 
 <CardGroup cols={2}>
   <Card title="Real-Time Streaming" icon="bolt">
-    **~40ms latency**
+    **Low-latency processing**
 
-    Live audio processing with SIP/RTC for minimal delay
+    Live audio processing with SIP/RTC for minimal delay.
   </Card>
   <Card title="High Concurrency" icon="layer-group">
-    **Unlimited streams**
+    **Scalable solution**
 
-    Process multiple audio streams simultaneously
+    Process multiple audio streams simultaneously.
   </Card>
   <Card title="Session Management" icon="circle-play">
     **SIP protocol**
 
-    Reliable connection establishment and management
+    Reliable connection establishment and management.
   </Card>
   <Card title="ASR-Agnostic" icon="puzzle-piece">
     **Works with any ASR**
@@ -224,7 +225,7 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
   <Card title="Easy Integration" icon="plug">
     **Simple API**
 
-    Initialize, create processor, stream audio
+    Initialize, create a processor, stream audio
   </Card>
   <Card title="Secure" icon="shield-check">
     **Enterprise security**
@@ -243,10 +244,10 @@ Sanas SDK operates as a **cloud-hosted real-time streaming service** that proces
 
 <CardGroup cols={2}>
   <Card title="Request SDK Access" icon="key" href="/SDK/Get-Started/Authentication">
-    Get your credentials to start building
+    Get your credentials to start building.
   </Card>
-  <Card title="Quickstart Guide" icon="bolt" href="/SDK/Get-Started/Quickstart-Guide">
-    Install SDK and stream your first audio
+  <Card title="Quickstart Guide" icon="bolt" href="/sdk/get-started/quickstart-guide">
+    Install the SDK and stream your first audio.
   </Card>
 </CardGroup>
 
