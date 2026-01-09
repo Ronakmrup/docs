@@ -155,18 +155,18 @@ audio_params.sampleRate = 16000  # Up to 16kHz supported
 
 ## Latency & Performance
 
-| Metric            | Value      | Description                                       |
-| :---------------- | :--------- | :------------------------------------------------ |
-| Streaming Latency | ~40ms      | Per-chunk processing time                         |
-| Throughput        | Real-time+ | Can process faster than real-time in offline mode |
-| Concurrency       | Unlimited  | Limited only by your infrastructure               |
+| Metric            | Value      | Description                                                                                                                     |
+| :---------------- | :--------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Streaming Latency | ~100ms     | Per-chunk processing time.<br /><br />**Note**: The actual latency experienced also depends on the selected Sanas Cloud region. |
+| Throughput        | Real-time+ | Can process faster than real-time in offline mode                                                                               |
+| Concurrency       | Unlimited  | Limited only by your infrastructure                                                                                             |
 
 ### Real-Time Latency Budget
 
 ```
 User speaks → Mic capture (5-10ms)
            → Network (10-20ms)
-           → Sanas SDK (~40ms)
+           → Sanas SDK (~100ms)
            → ASR (~100-200ms)
            → LLM processing (200-500ms)
            → TTS (~100-200ms)
