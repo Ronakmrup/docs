@@ -19,19 +19,15 @@ The **Noise Cancellation** models remove unwanted background noise while preserv
     The microphone captures the speaker's voice + background noise.
   </Step>
   <Step title="Process through Sanas NC">
-    Model removes background noise based on the selected variant (multi-speaker, single-speaker, telephony, or headset)
+    Model removes background noise based on the selected variant (multi-speaker, single-speaker, telephony, or headset).
   </Step>
   <Step title="Deliver clean audio">
-    Clean audio sent to encoder/network for transmission
+    Clean audio sent to encoder/network for transmission.
   </Step>
   <Step title="Great call experience">
-    The recipient hears a clear voice without distractions
+    The recipient hears a clear voice without distractions.
   </Step>
 </Steps>
-
-**Architecture Diagram:** ┌──────────┐ ┌──────────────┐ ┌─────────┐ ┌──────────┐ │ Mic/User │ -\> │ Sanas SDK │ -\> │ Encoder │ -\> │ Receiver │ │ │ │ (NC Model) │ │ │ │ │ └──────────┘ └──────────────┘ └─────────┘ └──────────┘
-
-Noisy Clean audio Network Clear audio environment (~40ms latency) transmission experience
 
 ---
 
@@ -45,28 +41,28 @@ Sanas provides **4 Noise Cancellation variants** optimized for different scenari
     **Removes:** Noise and cross-talk\
     **Use:** Conference rooms, meetings
 
-    [View details →](/sdk/ai-models/noise-cancellation#st)
+    [View details →](/sdk/ai-models/noise-cancellation)
   </Card>
   <Card title="General Purpose (VI-G)" icon="microphone" href="/sdk/ai-models/noise-cancellation#vi-g">
     **Preserves:** Primary speaker up to ~1m\
     **Removes:** Background voices & noise\
     **Use:** General calls, voice agents
 
-    [View details →](/sdk/ai-models/noise-cancellation#vi-g)
+    [View details →](/sdk/ai-models/noise-cancellation)
   </Card>
   <Card title="Telephony (VI-GT)" icon="phone" href="/sdk/ai-models/noise-cancellation#vi-gt">
     **Preserves:** Primary speaker (8kHz optimized)\
     **Removes:** Noise in bandwidth-limited streams\
     **Use:** Phone calls, VoIP, call centers
 
-    [View details →](/sdk/ai-models/noise-cancellation#vi-gt)
+    [View details →](/sdk/ai-models/noise-cancellation)
   </Card>
   <Card title="Headset (VI-N)" icon="headset" href="/sdk/ai-models/noise-cancellation#vi-n">
     **Preserves:** Primary speaker at ~30cm\
     **Removes:** All noise with max clarity\
     **Use:** Headsets, gaming, close mics
 
-    [View details →](/sdk/ai-models/noise-cancellation#vi-n)
+    [View details →](/sdk/ai-models/noise-cancellation)
   </Card>
 </CardGroup>
 
@@ -106,6 +102,8 @@ Sanas provides **4 Noise Cancellation variants** optimized for different scenari
 
 ## Use Cases
 
+Here are a few ideal use cases:
+
 | Industry            | Use Case             | Model Recommendation |
 | :------------------ | :------------------- | :------------------- |
 | **Contact Centers** | Agent-customer calls | VI-GT (Telephony)    |
@@ -143,8 +141,8 @@ for chunk in audio_stream:
 ```
 
 <CardGroup cols={2}>
-  <Card title="Full Implementation Guide" href="/sdk/ai-models/noise-cancellation">
-    Complete parameters, all 4 models, examples
+  <Card title="Model Guide" href="/sdk/ai-models/noise-cancellation">
+    Technical specifications and parameters.
   </Card>
   <Card title="Tutorial: Multi-Stream Calls" href="/sdk/tutorials/multi-stream">
     Handle multiple concurrent calls
@@ -153,21 +151,13 @@ for chunk in audio_stream:
 
 ---
 
-## Next Steps
+## **Next Steps**
 
-<Steps>
-  <Step title="Get SDK credentials">
-    Request access →
-  </Step>
-  <Step title="Install SDK">
-    Quickstart guide →
-  </Step>
-  <Step title="Choose your model">
-    Model comparison →
-  </Step>
-  <Step title="Integrate into your app">
-    View tutorials →
-  </Step>
-</Steps>
-
-\`\`\`
+<Columns cols={2}>
+  <Card title="Request Access" href="sdk/get-started/authentication">
+    Get your SDK credentials
+  </Card>
+  <Card title="Quickstart guide" href="/sdk/get-started/quickstart-guide">
+    Install dependencies to get started.
+  </Card>
+</Columns>
