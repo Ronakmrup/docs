@@ -36,6 +36,12 @@
               "overview/solutions/ai-voice-agents",
               "overview/solutions/untitled-page"
             ]
+          },
+          {
+            "group": "Updates",
+            "pages": [
+              "overview/updates/changelog"
+            ]
           }
         ]
       },
